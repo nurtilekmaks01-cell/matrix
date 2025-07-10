@@ -1,0 +1,34 @@
+import { ERequest } from 'src/shared/types/request';
+
+export const WITHDRAW_REQUEST_STATUS_CALLBACK: Record<ERequest, string> = {
+  [ERequest.APPROVED]: `WITHDRAW_${ERequest.APPROVED}`,
+  [ERequest.API]: `WITHDRAW_${ERequest.API}`,
+  [ERequest.BACK]: `WITHDRAW_${ERequest.BACK}`,
+  [ERequest.BANED]: `WITHDRAW_${ERequest.BANED}`,
+  [ERequest.CANCELED]: `WITHDRAW_${ERequest.CANCELED}`,
+  [ERequest.PENDING]: `WITHDRAW_${ERequest.PENDING}`,
+};
+
+export const WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM: Record<
+  ERequest,
+  string
+> = {
+  [ERequest.APPROVED]: `CONFIRM_WITHDRAW_${ERequest.APPROVED}`,
+  [ERequest.BANED]: `CONFIRM_WITHDRAW_${ERequest.BANED}`,
+  [ERequest.CANCELED]: `CONFIRM_WITHDRAW_${ERequest.CANCELED}`,
+  [ERequest.PENDING]: `CONFIRM_WITHDRAW_${ERequest.PENDING}`,
+  [ERequest.API]: `CONFIRM_WITHDRAW_${ERequest.API}`,
+  [ERequest.BACK]: `CONFIRM_WITHDRAW_${ERequest.BACK}`,
+};
+
+export const WITHDRAW_REQUEST_STATUS = {
+  [WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM[ERequest.API]]: ERequest.API,
+  [WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM[ERequest.APPROVED]]:
+    ERequest.APPROVED,
+  [WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM[ERequest.BACK]]: ERequest.BACK,
+  [WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM[ERequest.BANED]]: ERequest.BANED,
+  [WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM[ERequest.CANCELED]]:
+    ERequest.CANCELED,
+  [WITHDRAW_REQUEST_STATUS_CALLBACK_CONFIRM[ERequest.PENDING]]:
+    ERequest.PENDING,
+};

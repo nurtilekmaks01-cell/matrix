@@ -1,0 +1,11 @@
+export enum EBanks {
+  MBANK = 'MBANK',
+  COMPONION = 'COMPONION',
+  O_MONEY = 'O_MONEY',
+  OPTIMA = 'OPTIMA',
+  BAKAI_BANK = 'BAKAI_BANK',
+  QRCODE = 'QRCODE',
+  MEGAPAY = 'MEGAPAY',
+  BALANCE = 'BALANCE',
+  BAKAI = 'BAKAI',
+}
