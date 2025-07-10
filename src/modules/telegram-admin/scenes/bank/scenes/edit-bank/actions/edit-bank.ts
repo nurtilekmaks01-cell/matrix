@@ -1,6 +1,14 @@
 import { BankService } from 'src/modules/bank/bank.service';
 import { SceneContext } from 'telegraf/typings/scenes';
 
+const generateText = () => {
+  const text = `
+Successfully added
+`;
+
+  return text;
+};
+
 interface IEditBankArgs {
   ctx: SceneContext;
   bankService: BankService;
@@ -22,5 +30,9 @@ export const editBankACtion = async (args: IEditBankArgs) => {
 
   if (bank) {
     await bankService.changeBank(bank);
+
+    const text = generateText();
+
+    await ctx.replyWithHTML(text);
   }
 };

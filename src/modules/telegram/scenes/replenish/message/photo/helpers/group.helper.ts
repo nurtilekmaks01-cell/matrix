@@ -36,6 +36,7 @@ export const groupReplenishSend = async (args: IGroupArgs) => {
       reply_markup: {
         inline_keyboard,
       },
+      parse_mode: 'HTML',
     },
   );
 

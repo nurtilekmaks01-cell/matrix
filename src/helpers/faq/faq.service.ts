@@ -16,20 +16,15 @@ export class FaqService implements OnModuleInit {
 
   public faq: Faq = {
     id: 10000,
-    link: 'https://t.me/RuslanbratanS',
-    username: '@RuslanbratanS',
+    link: 'https://t.me/brucewayne_s_98',
+    username: '@brucewayne_s_98',
   };
 
   public faq_list: Faq[] = [
     {
       id: 10000,
-      link: 'https://t.me/RuslanbratanS',
-      username: '@RuslanbratanS',
-    },
-    {
-      id: 1000000,
-      link: 'https://t.me/Sevenkg',
-      username: '@Sevenkg',
+      link: 'https://t.me/brucewayne_s_98',
+      username: '@brucewayne_s_98',
     },
   ];
 

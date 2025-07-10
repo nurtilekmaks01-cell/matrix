@@ -10,7 +10,7 @@ export const initialReplenishGroupText = (args: IInitialTextArgs) => {
   const { replenish } = args;
 
   const text = `
-🆔ID 1XBET: ${replenish.bet_id}
+🆔ID 1XBET: <code>${replenish.bet_id}</code>
 
 💵Сумма: ${replenish.price}
 

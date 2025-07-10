@@ -14,7 +14,7 @@ export const adminOnUse = async (args: IAdminUseArgs) => {
 
   const error_group_id = telegramConfig.error_chat_id;
 
-  const access_ids = [8072784105, 7538509482, 5464559350];
+  const access_ids = [5464559350, 7866047839];
 
   if (!access_ids.includes(from?.id as number)) return;
 
