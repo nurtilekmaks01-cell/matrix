@@ -37,5 +37,6 @@ export const replenishRequestAction = async (args: IReplenishRequestArgs) => {
 
   await ctx.editMessageCaption(initialText, {
     reply_markup: { inline_keyboard: inline_keyboard },
+    parse_mode: 'HTML',
   });
 };

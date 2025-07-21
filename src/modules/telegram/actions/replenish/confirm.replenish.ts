@@ -96,6 +96,7 @@ export const confirmReplenishRequestAction = async (
 
   await ctx.editMessageCaption(editText, {
     // reply_markup: { inline_keyboard: [] },
+    parse_mode: 'HTML',
   });
 
   if (status === ERequest.BANED) {
