@@ -9,6 +9,7 @@ import { WithdrawModule } from '../withdraw/withdraw.module';
 import { FaqModule } from 'src/helpers/faq/faq.module';
 import { KeyupModule } from 'src/helpers/keyup/keyup.module';
 import { BankModule } from '../bank/bank.module';
+import { QrcodeModule } from 'src/helpers/qrcode/qrcode.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { BankModule } from '../bank/bank.module';
     FaqModule,
     KeyupModule,
     BankModule,
+    QrcodeModule,
   ],
   controllers: [],
   providers: [TelegramService, ReplenishScene, WithdrawScene],

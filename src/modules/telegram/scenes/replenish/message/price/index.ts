@@ -7,6 +7,7 @@ import {
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 import { BankService } from 'src/modules/bank/bank.service';
 import { generateNumberPrice, generatePrice } from './generate';
+import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 
 const generateText = () => {
   return `
@@ -78,9 +79,10 @@ interface IPriceArgs {
   text: string;
   session: IReplenishSession;
   bankService: BankService;
+  qrcodeService: QrcodeService;
 }
 export const replenishMessagePrice = async (args: IPriceArgs) => {
-  const { ctx, session, text, bankService } = args;
+  const { ctx, session, text, bankService, qrcodeService } = args;
 
   const generatedPrice = generateNumberPrice(Number(text));
 
@@ -92,9 +94,18 @@ export const replenishMessagePrice = async (args: IPriceArgs) => {
   const keyboard = generateKeyboard();
   const subKeyboard = generateSubKeyboard({ bankService });
 
-  await ctx.replyWithHTML(replySubText, {
-    reply_markup: { inline_keyboard: subKeyboard },
+  const bank = bankService.bank;
+
+  const bufferImage = await qrcodeService.generateQRCodeBuffer({
+    url: bank.href,
   });
+
+  await ctx.replyWithPhoto(
+    { source: bufferImage },
+    {
+      reply_markup: { inline_keyboard: subKeyboard },
+    },
+  );
 
   await ctx.replyWithHTML(replyText, {
     reply_markup: { keyboard, resize_keyboard: true },

@@ -5,12 +5,14 @@ import { replenishMessageBetId } from './bet-id';
 import { replenishMessagePrice } from './price';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { BankService } from 'src/modules/bank/bank.service';
+import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 
 interface IReplenishMessageArgs {
   ctx: SceneContext;
   text: string;
   keyupService: KeyupService;
   bankService: BankService;
+  qrcodeService: QrcodeService;
 }
 export const onReplenishMessage = async (args: IReplenishMessageArgs) => {
   const { ctx } = args;

@@ -21,6 +21,7 @@ import { FaqService } from 'src/helpers/faq/faq.service';
 import { TELEGRAM_ACTION_KEYBOARDS } from '../../actions/keyboard';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { BankService } from 'src/modules/bank/bank.service';
+import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 
 @Injectable()
 @Scene(TelegramScenes.REPLENISH)
@@ -30,6 +31,7 @@ export class ReplenishScene {
     private readonly faqService: FaqService,
     private readonly keyupService: KeyupService,
     private readonly bankService: BankService,
+    private readonly qrcodeService: QrcodeService,
   ) {}
 
   @Start()
@@ -62,6 +64,7 @@ export class ReplenishScene {
       text,
       keyupService: this.keyupService,
       bankService: this.bankService,
+      qrcodeService: this.qrcodeService,
     });
   }
 

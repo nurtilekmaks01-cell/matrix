@@ -17,6 +17,6 @@ export class QrcodeService {
     await generateQrcodeData(generateQrcodeDto);
   }
   async generateQRCodeBuffer(generateQrcodeDto: GenerateQrcodeDto) {
-    await generateQrcodeBuffer(generateQrcodeDto);
+    return await generateQrcodeBuffer(generateQrcodeDto);
   }
 }
