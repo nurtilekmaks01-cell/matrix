@@ -24,6 +24,7 @@ export const withdrawRequestAction = async (args: IWithdrawActionArgs) => {
 
   const withdraw = await withdrawService.findOneWithOptions({
     where: { message_id },
+    relations: ['user', 'admin'],
   });
 
   if (!withdraw) return;
