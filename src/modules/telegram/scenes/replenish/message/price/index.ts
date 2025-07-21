@@ -84,7 +84,26 @@ interface IPriceArgs {
 export const replenishMessagePrice = async (args: IPriceArgs) => {
   const { ctx, session, text, bankService, qrcodeService } = args;
 
-  const generatedPrice = generateNumberPrice(Number(text));
+  const numberPrice = Number(text);
+  // Проверка, что введено число
+  if (isNaN(numberPrice)) {
+    await ctx.reply('Пожалуйста, введите число.');
+    return;
+  }
+
+  const { min, max } = session.bet.price;
+
+  if (numberPrice < min) {
+    await ctx.reply(`Сумма слишком мала. Минимальная ставка — ${min}`);
+    return;
+  }
+
+  if (numberPrice > max) {
+    await ctx.reply(`Сумма слишком велика. Максимальная ставка — ${max}`);
+    return;
+  }
+
+  const generatedPrice = generateNumberPrice(numberPrice);
 
   session.price = generatedPrice;
 

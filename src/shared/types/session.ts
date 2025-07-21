@@ -5,5 +5,9 @@ export interface ITelegramDefaultSession {
     assets: {
       id: string;
     };
+    price: {
+      min: number;
+      max: number;
+    };
   };
 }

@@ -55,6 +55,10 @@ import { AxiosModule } from './helpers/axios/axios.module';
                   assets: {
                     id: assets.xbet.id,
                   },
+                  price: {
+                    max: 100000,
+                    min: 50,
+                  },
                 },
               };
               return object;
@@ -83,6 +87,10 @@ import { AxiosModule } from './helpers/axios/axios.module';
                 bet: {
                   assets: {
                     id: assets.xbet.id,
+                  },
+                  price: {
+                    max: 100000,
+                    min: 50,
                   },
                 },
               };
