@@ -6,14 +6,25 @@ import { EKeyupTypeAction } from 'src/helpers/keyup/shared/type';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 
-const generateText = () => {
+interface IGenerateTextArgs {
+  price: {
+    min: number;
+    max: number;
+  };
+}
+const generateText = (args: IGenerateTextArgs) => {
+  const { price } = args;
+
   const text = `
 💰 <b>Введите сумму</b>
-  
+
 Укажите, сколько вы хотите внести.
+
+Минимум: <b>${price.min}</b>  
+Максимум: <b>${price.max}</b>
   `;
 
-  return text;
+  return text.trim();
 };
 
 const generateKeyboard = () => {
@@ -56,7 +67,7 @@ export const replenishMessageBetId = async (args: IBetIdArgs) => {
 
   session.bet_id = text;
 
-  const replyText = generateText();
+  const replyText = generateText({ price: session.bet.price });
 
   await createKeyup({ keyupService, telegram_id, value: text });
 
