@@ -11,9 +11,18 @@ import { AdminTelegramAddBankScene } from './scenes/bank/scenes/add-bank';
 import { QrcodeModule } from 'src/helpers/qrcode/qrcode.module';
 import { AxiosModule } from 'src/helpers/axios/axios.module';
 import { BankModule } from '../bank/bank.module';
+import { AdminTelegramNewsScene } from './scenes/news';
+import { AutoReplyModule } from 'src/helpers/auto-reply/auto-reply.module';
 
 @Module({
-  imports: [ConfigModule, FaqModule, QrcodeModule, AxiosModule, BankModule],
+  imports: [
+    ConfigModule,
+    FaqModule,
+    QrcodeModule,
+    AxiosModule,
+    BankModule,
+    AutoReplyModule,
+  ],
   controllers: [],
   providers: [
     TelegramAdminService,
@@ -23,6 +32,7 @@ import { BankModule } from '../bank/bank.module';
     AdminTelegramAddFaqScene,
     AdminTelegramEditBankScene,
     AdminTelegramAddBankScene,
+    AdminTelegramNewsScene,
   ],
   exports: [TelegramAdminService],
 })

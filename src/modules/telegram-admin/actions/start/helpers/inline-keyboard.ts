@@ -16,6 +16,12 @@ export const adminStartInlineKeyboard = async () => {
       callback_data: ETelegramAdminActions.FAQ,
     },
   ]);
+  inline_keyboard.push([
+    {
+      text: ETelegramAdminActions.NEWS,
+      callback_data: ETelegramAdminActions.NEWS,
+    },
+  ]);
 
   return inline_keyboard;
 };

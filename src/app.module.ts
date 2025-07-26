@@ -18,6 +18,7 @@ import { TelegramAdminModule } from './modules/telegram-admin/telegram-admin.mod
 import { LocalFileModule } from './helpers/local-file/local-file.module';
 import { QrcodeModule } from './helpers/qrcode/qrcode.module';
 import { AxiosModule } from './helpers/axios/axios.module';
+import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
 
 @Module({
   imports: [
@@ -116,6 +117,7 @@ import { AxiosModule } from './helpers/axios/axios.module';
     LocalFileModule,
     QrcodeModule,
     AxiosModule,
+    AutoReplyModule,
   ],
   controllers: [],
   providers: [],

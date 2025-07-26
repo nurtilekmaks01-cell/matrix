@@ -9,6 +9,7 @@ export class TelegramConfig {
 
   public replenish_chat_id: string;
   public withdraw_chat_id: string;
+  public auto_reply_chat_id: string;
 
   constructor(private readonly configService: ConfigService) {
     this.bot_token = configService.getString('TELEGRAM_BOT_TOKEN');
@@ -19,6 +20,9 @@ export class TelegramConfig {
     );
     this.withdraw_chat_id = configService.getString(
       'TELEGRAM_WITHDRAW_CHAT_ID',
+    );
+    this.auto_reply_chat_id = configService.getString(
+      'TELEGRAM_AUTO_REPLY_CHAT_ID',
     );
   }
 }
