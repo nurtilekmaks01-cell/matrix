@@ -58,7 +58,7 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
                   },
                   price: {
                     max: 100000,
-                    min: 50,
+                    min: 35,
                   },
                 },
               };
