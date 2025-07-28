@@ -1,7 +1,14 @@
 import { Keyup } from 'src/helpers/keyup/entities/keyup.entity';
 import { Replenish } from 'src/modules/replenish/entities/replenish.entity';
 import { Withdraw } from 'src/modules/withdraw/entities/withdraw.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -22,6 +29,15 @@ export class User {
 
   @Column({ type: 'boolean' })
   is_baned: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @Column({ nullable: true, type: 'integer', default: 0 })
+  action_count?: number | null;
 
   @OneToMany(() => Replenish, (replenish) => replenish.user)
   replenish: Replenish[];

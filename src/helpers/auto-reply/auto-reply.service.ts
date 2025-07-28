@@ -7,6 +7,7 @@ import { UserService } from 'src/modules/user/user.service';
 import { sleep } from 'src/shared/utils/helpers/fetch.helper';
 import { AutoReplyType, ReplyMessageDto } from './dto/reply-message.dto';
 import { TelegramConfig } from '../config/services/telegram.config';
+import { banTextHelper } from './shared/helpers/ban-text.helper';
 
 @Injectable()
 export class AutoReplyService {
@@ -46,10 +47,13 @@ export class AutoReplyService {
 
         await sleep(1000);
 
-        const auth_reply_chat_text = `${count + 1}.${user.first_name}, sended auto reply. ${user.username}`;
+        const auth_reply_chat_text = banTextHelper({ index: count + 1, user });
         await this.telegraf.telegram.sendMessage(
           this.auto_reply_group_id,
           auth_reply_chat_text,
+          {
+            parse_mode: 'HTML',
+          },
         );
 
         count++;

@@ -21,7 +21,12 @@ export const onUseAction = async (args: IOnUseActionArgs) => {
 
   console.log(chat, 'chat');
 
-  const user = await ensureUserExists({ from, userService });
+  const user = await ensureUserExists({
+    from,
+    userService,
+    telegramConfig,
+    ctx,
+  });
 
   console.log(user, 'user');
 

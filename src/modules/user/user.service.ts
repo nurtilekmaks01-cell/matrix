@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { UpdateBanDto } from './dto/update-ban.dto';
+import { userRelations } from './shared/constants/relations';
 
 @Injectable()
 export class UserService {
@@ -21,15 +22,23 @@ export class UserService {
   }
 
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.find({
+      relations: userRelations,
+    });
   }
 
   async findOne(id: number) {
-    return await this.repository.findOne({ where: { id } });
+    return await this.repository.findOne({
+      where: { id },
+      relations: userRelations,
+    });
   }
 
   async findOneWithOptions(options: FindOneOptions<User>) {
-    return await this.repository.findOne(options);
+    return await this.repository.findOne({
+      ...options,
+      relations: userRelations,
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
