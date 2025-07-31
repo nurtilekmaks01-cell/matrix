@@ -8,6 +8,7 @@ import { TelegramConfig } from 'src/helpers/config/services/telegram.config';
 import { FaqService } from 'src/helpers/faq/faq.service';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { withdrawMessageName } from './name';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 interface IWithdrawMessageArgs {
   ctx: SceneContext;
@@ -16,6 +17,7 @@ interface IWithdrawMessageArgs {
   telegramConfig: TelegramConfig;
   faqService: FaqService;
   keyupService: KeyupService;
+  axiosService: AxiosService;
 }
 export const withdrawMessage = async (args: IWithdrawMessageArgs) => {
   const { ctx } = args;

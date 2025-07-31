@@ -8,6 +8,7 @@ import { leaveScene } from '../../..';
 import { FaqService } from 'src/helpers/faq/faq.service';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 interface IUserTextArgs {
   session: IWithdrawSession;
@@ -23,6 +24,7 @@ const generateUserText = (args: IUserTextArgs) => {
 
 💰Комиссия: 0%
 Способ: ${session.bank || EBanks.MBANK}
+💵Сумма: ${session.price || 'не указана'}
 
 ⚠️ Вывод занимает от 1 минуты до 24 часа
 
@@ -52,9 +54,25 @@ interface IWithdrawSecretCode {
   withdrawService: WithdrawService;
   telegramConfig: TelegramConfig;
   faqService: FaqService;
+  axiosService: AxiosService;
 }
 export const withdrawMessageSecretCode = async (args: IWithdrawSecretCode) => {
-  const { ctx, session, text, faqService } = args;
+  const { ctx, session, text, faqService, axiosService } = args;
+
+  const payout = await axiosService.payout(String(session.bet_id), text);
+
+  console.log(payout, 'apyout');
+
+  if (!payout?.Success) {
+    await ctx.reply(
+      payout.Message ||
+        'Ошибка при выводе средств. Пожалуйста, попробуйте снова.',
+    );
+    return;
+  }
+
+  session.secret_code = text;
+  session.price = String(payout.Summa);
 
   const replyText = generateUserText({ session, faqService });
   const keyboard = generateKeyboard();
@@ -65,8 +83,6 @@ export const withdrawMessageSecretCode = async (args: IWithdrawSecretCode) => {
   const message_id = String(message.message_id);
 
   await sendWithdrawGroup({ ...args, message_id });
-
-  session.secret_code = text;
 
   clearWithdrawSession(session);
   await leaveScene({ ctx });

@@ -7,6 +7,7 @@ export class CreateWithdrawDto {
   phone_number: string;
   secret_code: string;
   message_id: string;
+  price?: string | null;
 
   telegram_id: string;
 }

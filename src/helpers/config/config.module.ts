@@ -4,6 +4,7 @@ import * as NestConfig from '@nestjs/config';
 import { TelegramConfig } from './services/telegram.config';
 import { AppConfig } from './services/app.config';
 import { DBConfig } from './services/db.config';
+import { XbetConfig } from './services/xbet.config';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { DBConfig } from './services/db.config';
     }),
   ],
   controllers: [],
-  providers: [ConfigService, TelegramConfig, AppConfig, DBConfig],
-  exports: [ConfigService, TelegramConfig, AppConfig, DBConfig],
+  providers: [ConfigService, TelegramConfig, AppConfig, DBConfig, XbetConfig],
+  exports: [ConfigService, TelegramConfig, AppConfig, DBConfig, XbetConfig],
 })
 export class ConfigModule {}

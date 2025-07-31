@@ -19,16 +19,18 @@ import {
 import { UserService } from 'src/modules/user/user.service';
 import { formatDistance, formatDistanceToNow, subDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 interface IReplenishRequestArgs {
   ctx: SceneContext;
   replenishService: ReplenishService;
   userService: UserService;
+  axiosService: AxiosService;
 }
 export const confirmReplenishRequestAction = async (
   args: IReplenishRequestArgs,
 ) => {
-  const { ctx, replenishService, userService } = args;
+  const { ctx, replenishService, userService, axiosService } = args;
 
   const callback = ctx.callbackQuery as CallbackQuery;
   const message = callback?.message;
@@ -104,5 +106,19 @@ export const confirmReplenishRequestAction = async (
       status: true,
       telegram_id: replenish.user.telegram_id,
     });
+  }
+
+  if (status === ERequest.API) {
+    const response = await axiosService.deposit(
+      replenish.bet_id,
+      Number(replenish.price),
+    );
+
+    if (!response?.Success) {
+      await ctx.reply(
+        `Ошибка при пополнении: ${response?.Message}. Пожалуйста, свяжитесь с поддержкой.`,
+      );
+      return;
+    }
   }
 };

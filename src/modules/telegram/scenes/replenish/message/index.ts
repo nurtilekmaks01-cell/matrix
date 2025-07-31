@@ -6,6 +6,7 @@ import { replenishMessagePrice } from './price';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { BankService } from 'src/modules/bank/bank.service';
 import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 interface IReplenishMessageArgs {
   ctx: SceneContext;
@@ -13,6 +14,7 @@ interface IReplenishMessageArgs {
   keyupService: KeyupService;
   bankService: BankService;
   qrcodeService: QrcodeService;
+  axiosService: AxiosService;
 }
 export const onReplenishMessage = async (args: IReplenishMessageArgs) => {
   const { ctx } = args;

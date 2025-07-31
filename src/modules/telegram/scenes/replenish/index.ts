@@ -22,6 +22,7 @@ import { TELEGRAM_ACTION_KEYBOARDS } from '../../actions/keyboard';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { BankService } from 'src/modules/bank/bank.service';
 import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 @Injectable()
 @Scene(TelegramScenes.REPLENISH)
@@ -32,6 +33,7 @@ export class ReplenishScene {
     private readonly keyupService: KeyupService,
     private readonly bankService: BankService,
     private readonly qrcodeService: QrcodeService,
+    private readonly axiosService: AxiosService,
   ) {}
 
   @Start()
@@ -65,6 +67,7 @@ export class ReplenishScene {
       keyupService: this.keyupService,
       bankService: this.bankService,
       qrcodeService: this.qrcodeService,
+      axiosService: this.axiosService,
     });
   }
 

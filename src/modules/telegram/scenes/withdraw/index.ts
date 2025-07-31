@@ -24,6 +24,7 @@ import { TelegramConfig } from 'src/helpers/config/services/telegram.config';
 import { FaqService } from 'src/helpers/faq/faq.service';
 import { TELEGRAM_ACTION_KEYBOARDS } from '../../actions/keyboard';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 @Injectable()
 @Scene(TelegramScenes.WITHDRAW)
@@ -33,6 +34,7 @@ export class WithdrawScene {
     private readonly telegramConfig: TelegramConfig,
     private readonly faqService: FaqService,
     private readonly keyupService: KeyupService,
+    private readonly axiosService: AxiosService,
   ) {}
 
   @Start()
@@ -73,6 +75,7 @@ export class WithdrawScene {
       telegramConfig: this.telegramConfig,
       faqService: this.faqService,
       keyupService: this.keyupService,
+      axiosService: this.axiosService,
     });
   }
 

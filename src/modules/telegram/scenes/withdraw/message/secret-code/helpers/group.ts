@@ -28,6 +28,7 @@ const createWithdraw = async (args: ICreateArgs) => {
     secret_code: text,
     message_id,
     telegram_id,
+    price: session.price || null,
   };
 
   const withdraw = await withdrawService.create(createWithdrawDto);
@@ -43,6 +44,7 @@ export const withdrawInitialText = (args: WithdrawInitialArgs) => {
   const text = `
 ФИО: ${withdraw.name}
 🆔: <code>${withdraw.bet_id}</code>
+Сумма: ${withdraw.price || 'не указана'}
 🏦:${withdraw.bank}
 📳: <code>${withdraw.phone_number}</code>
 code: <code>${withdraw.secret_code}</code>

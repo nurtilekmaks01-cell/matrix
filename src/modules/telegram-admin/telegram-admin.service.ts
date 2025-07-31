@@ -1,5 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Action, Ctx, Hears, Next, Start, Update, Use } from 'nestjs-telegraf';
+import {
+  Action,
+  Command,
+  Ctx,
+  Hears,
+  Next,
+  Start,
+  Update,
+  Use,
+} from 'nestjs-telegraf';
 import { TelegramConfig } from 'src/helpers/config/services/telegram.config';
 import { Telegraf } from 'telegraf';
 import { SceneContext } from 'telegraf/typings/scenes';
@@ -9,11 +18,16 @@ import { TELEGRAM_ACTION_KEYBOARDS } from '../telegram/actions/keyboard';
 import { ETelegramAdminActions } from './actions/start/helpers/actions';
 import { adminTelegramActions } from './actions/main-actions';
 import { clearInlineKeyboard } from '../telegram/actions/inline-keyboard/clear-inline-keyboard';
+import { AxiosService } from 'src/helpers/axios/axios.service';
+import { getBalance } from './actions/get-balance';
 
 @Injectable()
 @Update()
 export class TelegramAdminService extends Telegraf<SceneContext> {
-  constructor(private readonly telegramConfig: TelegramConfig) {
+  constructor(
+    private readonly telegramConfig: TelegramConfig,
+    private readonly axiosService: AxiosService,
+  ) {
     super(telegramConfig.admin_bot_token);
   }
 
@@ -42,5 +56,10 @@ export class TelegramAdminService extends Telegraf<SceneContext> {
   async onAdminTelegramActions(@Ctx() ctx: SceneContext) {
     await adminTelegramActions({ ctx });
     await clearInlineKeyboard({ ctx });
+  }
+
+  @Command('balance')
+  async onBalanceCommand(@Ctx() ctx: SceneContext) {
+    await getBalance({ ctx, axiosService: this.axiosService });
   }
 }

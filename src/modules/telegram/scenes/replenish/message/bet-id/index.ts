@@ -5,6 +5,7 @@ import { CreateKeyupDto } from 'src/helpers/keyup/dto/create-keyup.dto';
 import { EKeyupTypeAction } from 'src/helpers/keyup/shared/type';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 interface IGenerateTextArgs {
   price: {
@@ -61,9 +62,19 @@ interface IBetIdArgs {
   session: IReplenishSession;
   keyupService: KeyupService;
   telegram_id: string;
+  axiosService: AxiosService;
 }
 export const replenishMessageBetId = async (args: IBetIdArgs) => {
-  const { ctx, session, text, keyupService, telegram_id } = args;
+  const { ctx, session, text, keyupService, telegram_id, axiosService } = args;
+
+  const findPlayer = await axiosService.findPlayer(text);
+
+  if (!findPlayer) {
+    await ctx.reply(
+      'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+    );
+    return;
+  }
 
   session.bet_id = text;
 

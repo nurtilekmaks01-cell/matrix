@@ -27,6 +27,9 @@ export class Withdraw {
   @Column()
   name: string;
 
+  @Column({ nullable: true, type: 'text' })
+  price: string | null;
+
   @Column()
   phone_number: string;
 

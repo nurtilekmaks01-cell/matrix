@@ -2,6 +2,7 @@ import { SceneContext } from 'telegraf/typings/scenes';
 import { IWithdrawSession } from '../../session';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
+import { AxiosService } from 'src/helpers/axios/axios.service';
 
 const generateText = () => {
   const text = `
@@ -32,9 +33,19 @@ interface IWithdrawBetIdArgs {
   ctx: SceneContext;
   session: IWithdrawSession;
   text: string;
+  axiosService: AxiosService;
 }
 export const withdrawMessageBetId = async (args: IWithdrawBetIdArgs) => {
-  const { ctx, session, text } = args;
+  const { ctx, session, text, axiosService } = args;
+
+  const findPlayer = await axiosService.findPlayer(text);
+
+  if (!findPlayer) {
+    await ctx.reply(
+      'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+    );
+    return;
+  }
 
   const replyText = generateText();
   const keyboard = generateKeyboard();

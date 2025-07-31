@@ -9,6 +9,7 @@ export interface IWithdrawSession extends ITelegramDefaultSession {
   secret_code?: string;
   is_qrcode?: boolean;
   qrcode_file_id?: string;
+  price?: string;
 }
 
 export const clearWithdrawSession = (session: IWithdrawSession) => {
@@ -19,4 +20,5 @@ export const clearWithdrawSession = (session: IWithdrawSession) => {
   session.is_qrcode = undefined;
   session.qrcode_file_id = undefined;
   session.name = undefined;
+  session.price = undefined;
 };

@@ -10,6 +10,7 @@ import { FaqModule } from 'src/helpers/faq/faq.module';
 import { KeyupModule } from 'src/helpers/keyup/keyup.module';
 import { BankModule } from '../bank/bank.module';
 import { QrcodeModule } from 'src/helpers/qrcode/qrcode.module';
+import { AxiosModule } from 'src/helpers/axios/axios.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { QrcodeModule } from 'src/helpers/qrcode/qrcode.module';
     KeyupModule,
     BankModule,
     QrcodeModule,
+    AxiosModule,
   ],
   controllers: [],
   providers: [TelegramService, ReplenishScene, WithdrawScene],
