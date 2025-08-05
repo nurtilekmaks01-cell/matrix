@@ -1,7 +1,8 @@
-import { EBanks } from 'src/modules/bank/shared/types';
+import { EBANK_TEXT, EBanks } from 'src/modules/bank/shared/types';
 import { InlineKeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { SceneContext } from 'telegraf/typings/scenes';
 import { clearWithdrawSession, IWithdrawSession } from '../session';
+import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 
 const generateText = () => {
   const text = `
@@ -23,18 +24,25 @@ const generateInlineKeyboard = () => {
   const inline_keyboard: InlineKeyboardButton[][] = [];
 
   inline_keyboard.push([
-    { text: EBanks.MBANK, callback_data: EBanks.MBANK },
-    { text: EBanks.OPTIMA, callback_data: EBanks.OPTIMA },
+    { text: EBANK_TEXT[EBanks.MBANK], callback_data: EBanks.MBANK },
+    { text: EBANK_TEXT[EBanks.OPTIMA], callback_data: EBanks.OPTIMA },
   ]);
 
   inline_keyboard.push([
-    { text: EBanks.BAKAI_BANK, callback_data: EBanks.BAKAI_BANK },
-    { text: EBanks.COMPONION, callback_data: EBanks.COMPONION },
+    { text: EBANK_TEXT[EBanks.BAKAI_BANK], callback_data: EBanks.BAKAI_BANK },
+    { text: EBANK_TEXT[EBanks.COMPONION], callback_data: EBanks.COMPONION },
   ]);
 
   inline_keyboard.push([
-    { text: EBanks.O_MONEY, callback_data: EBanks.O_MONEY },
-    { text: EBanks.QRCODE, callback_data: EBanks.QRCODE },
+    { text: EBANK_TEXT[EBanks.O_MONEY], callback_data: EBanks.O_MONEY },
+    { text: EBANK_TEXT[EBanks.QRCODE], callback_data: EBanks.QRCODE },
+  ]);
+
+  inline_keyboard.push([
+    {
+      text: TELEGRAM_ACTION_KEYBOARDS.CANCELED,
+      callback_data: TELEGRAM_ACTION_KEYBOARDS.CANCELED,
+    },
   ]);
 
   return inline_keyboard;

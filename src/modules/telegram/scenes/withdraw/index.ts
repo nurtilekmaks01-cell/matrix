@@ -52,6 +52,7 @@ export class WithdrawScene {
   @Action(Object.values(TELEGRAM_ACTION_KEYBOARDS))
   async onCalcelAction(@Ctx() ctx: SceneContext) {
     await onStartAction({ ctx, faqService: this.faqService });
+    await clearInlineKeyboard({ ctx });
     await leaveScene({ ctx });
   }
 

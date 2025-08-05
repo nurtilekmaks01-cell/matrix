@@ -7,5 +7,15 @@ export enum EBanks {
   QRCODE = 'QRCODE',
   MEGAPAY = 'MEGAPAY',
   BALANCE = 'BALANCE',
-  BAKAI = 'BAKAI',
 }
+
+export const EBANK_TEXT: Record<EBanks, string> = {
+  [EBanks.MBANK]: 'MBANK',
+  [EBanks.COMPONION]: 'Компаньон',
+  [EBanks.O_MONEY]: 'О!Деньги',
+  [EBanks.OPTIMA]: 'Optima',
+  [EBanks.BAKAI_BANK]: 'Бакай Банк',
+  [EBanks.QRCODE]: 'QR-перевод',
+  [EBanks.MEGAPAY]: 'MegaPay',
+  [EBanks.BALANCE]: 'Balance',
+};

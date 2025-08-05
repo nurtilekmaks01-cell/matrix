@@ -34,7 +34,7 @@ export const generatePrice = (args: IGeneratePriceArgs) => {
       replace_url,
       hash,
     }),
-    [EBanks.BAKAI]: generateBakaiQrCodeUrl({
+    [EBanks.BAKAI_BANK]: generateBakaiQrCodeUrl({
       replace_url,
       hash,
     }),
