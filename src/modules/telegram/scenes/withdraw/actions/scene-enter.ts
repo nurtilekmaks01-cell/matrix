@@ -1,6 +1,7 @@
 import { EBanks } from 'src/modules/bank/shared/types';
 import { InlineKeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { SceneContext } from 'telegraf/typings/scenes';
+import { clearWithdrawSession, IWithdrawSession } from '../session';
 
 const generateText = () => {
   const text = `
@@ -44,6 +45,7 @@ interface ISceneEnterArgs {
 }
 export const withdrawSceneEnter = async (args: ISceneEnterArgs) => {
   const { ctx } = args;
+  const session = ctx.session as IWithdrawSession;
 
   const text = generateText();
   const subText = generateSubText();
@@ -51,4 +53,5 @@ export const withdrawSceneEnter = async (args: ISceneEnterArgs) => {
 
   await ctx.replyWithHTML(text);
   await ctx.replyWithHTML(subText, { reply_markup: { inline_keyboard } });
+  clearWithdrawSession(session);
 };

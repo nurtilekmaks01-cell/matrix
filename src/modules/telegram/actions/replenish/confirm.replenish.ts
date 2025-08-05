@@ -79,8 +79,14 @@ export const confirmReplenishRequestAction = async (
     return;
   }
 
-  const startDate = new Date(replenish.createAt).getTime();
-  const endDate = new Date(replenish.updateAt).getTime();
+  const updatedReplenish = await replenishService.findOneWithOptions({
+    where: { id: replenish.id },
+  });
+
+  if (!updatedReplenish) return;
+
+  const startDate = new Date(updatedReplenish.createAt).getTime();
+  const endDate = new Date(updatedReplenish.updateAt).getTime();
 
   const diffInMs = endDate - startDate;
 
