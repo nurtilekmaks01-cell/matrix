@@ -66,7 +66,7 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
             },
           }),
         ],
-        include: [],
+        include: [TelegramModule],
         launchOptions: {
           allowedUpdates: [],
           dropPendingUpdates: true,

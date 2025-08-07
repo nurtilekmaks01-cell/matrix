@@ -20,6 +20,10 @@ import { adminTelegramActions } from './actions/main-actions';
 import { clearInlineKeyboard } from '../telegram/actions/inline-keyboard/clear-inline-keyboard';
 import { AxiosService } from 'src/helpers/axios/axios.service';
 import { getBalance } from './actions/get-balance';
+import { replenishBanCommand } from './commands/ban';
+import { replenishUnBanCommand } from './commands/unban';
+import { ReplenishService } from '../replenish/replenish.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 @Update()
@@ -27,6 +31,8 @@ export class TelegramAdminService extends Telegraf<SceneContext> {
   constructor(
     private readonly telegramConfig: TelegramConfig,
     private readonly axiosService: AxiosService,
+    private readonly replenishService: ReplenishService,
+    private readonly userService: UserService,
   ) {
     super(telegramConfig.admin_bot_token);
   }
@@ -61,5 +67,23 @@ export class TelegramAdminService extends Telegraf<SceneContext> {
   @Command('balance')
   async onBalanceCommand(@Ctx() ctx: SceneContext) {
     await getBalance({ ctx, axiosService: this.axiosService });
+  }
+
+  @Command('ban')
+  async onBanCommand(@Ctx() ctx: SceneContext) {
+    await replenishBanCommand({
+      ctx,
+      replenishService: this.replenishService,
+      usersService: this.userService,
+    });
+  }
+
+  @Command('unban')
+  async onUnBanCommand(@Ctx() ctx: SceneContext) {
+    await replenishUnBanCommand({
+      ctx,
+      replenishService: this.replenishService,
+      usersService: this.userService,
+    });
   }
 }

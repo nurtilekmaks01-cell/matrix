@@ -13,6 +13,8 @@ import { AxiosModule } from 'src/helpers/axios/axios.module';
 import { BankModule } from '../bank/bank.module';
 import { AdminTelegramNewsScene } from './scenes/news';
 import { AutoReplyModule } from 'src/helpers/auto-reply/auto-reply.module';
+import { ReplenishModule } from '../replenish/replenish.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { AutoReplyModule } from 'src/helpers/auto-reply/auto-reply.module';
     AxiosModule,
     BankModule,
     AutoReplyModule,
+    ReplenishModule,
+    UserModule,
   ],
   controllers: [],
   providers: [
