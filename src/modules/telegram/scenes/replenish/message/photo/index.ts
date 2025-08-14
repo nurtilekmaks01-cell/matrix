@@ -8,6 +8,10 @@ import { leaveScene } from '../../..';
 import { FaqService } from 'src/helpers/faq/faq.service';
 import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 import { AxiosFileService } from 'src/helpers/axios/services/file.service';
+import {
+  checkPaymentUniversal,
+  errorPaymentUniversalMessageText,
+} from './helpers/price.helper';
 
 interface IPhotoArgs {
   ctx: SceneContext;
@@ -31,9 +35,13 @@ export const replenishPhoto = async (args: IPhotoArgs) => {
 
   const photo_id = photo?.[0]?.file_id;
 
-  await ctx.replyWithPhoto(photo_id);
+  const popPhoto = photo.pop();
 
-  const { href } = await ctx.telegram.getFileLink(photo_id);
+  if (!popPhoto) {
+    return;
+  }
+
+  const { href } = await ctx.telegram.getFileLink(popPhoto.file_id);
 
   const buffer = await axiosFileService.getBufferResponse({
     href,
@@ -41,7 +49,18 @@ export const replenishPhoto = async (args: IPhotoArgs) => {
 
   const text = await qrcodeService.getImageText({ buffer });
 
-  console.log(text, 'text');
+  console.log(text, 'text', 'jj');
+
+  const result = checkPaymentUniversal(
+    text,
+    Number(Number(session.price || '').toFixed(2)),
+  );
+
+  if (!result.success) {
+    await ctx.reply(result.error || errorPaymentUniversalMessageText());
+    return;
+  }
+  console.log(result); // { success: true, amount: 50 }
 
   const message = await userReplenishSend({ ctx, session, faqService });
   await groupReplenishSend({
