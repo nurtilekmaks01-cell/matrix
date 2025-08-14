@@ -1,98 +1,70 @@
 /**
- * Ищет сумму платежа в тексте чека (поддерживает О!Деньги, mbank, simbank и др.)
- * @param text Распознанный текст чека
- * @returns Найденная сумма (null, если не найдена)
+ * Проверяет наличие конкретной суммы в тексте чека
+ * @param text Текст чека
+ * @param targetAmount Искомая сумма (например 2000)
+ * @returns true если сумма найдена
  */
-function extractMBankAmount(text: string): number | null {
-  const patterns = [
-    // Вариант 1: Сумма после "Сумма" (учитываем разные форматы)
-    /Сумма[\s:]*(\d+[.,]\d{2})/i,
+function isAmountPresent(text: string, targetAmount: number): boolean {
+  // Сначала нормализуем текст (удаляем лишние пробелы и приводим к нижнему регистру)
+  const cleanText = text.toLowerCase().replace(/\s+/g, ' ');
 
-    // Вариант 2: Сумма в строке с "- 100,00 ©"
-    /-\s*(\d+[.,]\d{2})\s*©/,
-
-    // Вариант 3: Сумма в формате "100.00 К&5"
-    /(\d+[.,]\d{2})\s*К&5/,
-
-    // Вариант 4: Сумма в конце строки с валютой
-    /(\d+[.,]\d{2})\s*(сом|kgs|₸|©|с)/i,
+  // Все возможные варианты написания суммы
+  const amountVariants = [
+    targetAmount.toString(), // "2000"
+    targetAmount.toFixed(2).replace('.', ','), // "2000,00"
+    targetAmount.toFixed(2), // "2000.00"
+    new Intl.NumberFormat('ru-RU').format(targetAmount), // "2 000"
+    // Варианты с пробелами и запятыми
+    new Intl.NumberFormat('ru-RU').format(targetAmount) + ',00', // "2 000,00"
+    new Intl.NumberFormat('en-US').format(targetAmount) + '.00', // "2,000.00"
+    // Варианты с валютами
+    `${targetAmount} с`,
+    `${targetAmount} сом`,
+    `${targetAmount} ©`,
+    `${targetAmount.toFixed(2)} К©С5`,
+    // Дополнительные форматы из примеров
+    `- ${new Intl.NumberFormat('ru-RU').format(targetAmount)},00 ©`, // "- 2 000,00 ©"
+    `${new Intl.NumberFormat('en-US').format(targetAmount)}.00 к©с5`, // "2,000.00 К©С5"
   ];
 
-  for (const pattern of patterns) {
-    const match = text.match(pattern);
-    if (match) {
-      const amountStr = match[1].replace(',', '.');
-      const amount = parseFloat(amountStr);
-      if (!isNaN(amount)) {
-        return amount;
-      }
-    }
-  }
+  // Удаляем дубликаты
+  const uniqueVariants = [...new Set(amountVariants)];
 
-  return null;
-}
+  console.log(uniqueVariants, 'amountVariants');
 
-function extractPaymentAmount(text: string): number | null {
-  // Сначала проверяем специфичные форматы банков
-  if (text.includes('МВАМК') || text.includes('Сумма')) {
-    const mbankAmount = extractMBankAmount(text);
-    if (mbankAmount) return mbankAmount;
-  }
-
-  // Затем общие шаблоны
-  const generalPatterns = [
-    /(\d+[.,]\d{2})\s*(сом|kgs|₸|тенге|руб|₽|©|с)/i,
-    /-\s*(\d+[.,]?\d*)\s*$/m,
-    /(\d+)\s*с(?!\w)/i,
-  ];
-
-  for (const pattern of generalPatterns) {
-    const match = text.match(pattern);
-    if (match) {
-      const amountStr = (match[1] || match[2]).replace(',', '.');
-      const amount = parseFloat(amountStr);
-      if (!isNaN(amount)) return amount;
-    }
-  }
-
-  return null;
+  // Проверяем все варианты
+  return uniqueVariants.some(
+    (variant) =>
+      cleanText.includes(variant.toLowerCase()) ||
+      new RegExp(`\\b${variant}\\b`, 'i').test(cleanText),
+  );
 }
 
 /**
- * Проверяет, совпадает ли сумма в чеке с ожидаемой
- * @param recognizedText Текст чека (из Tesseract)
+ * Упрощенная проверка платежа (только точное совпадение)
+ * @param recognizedText Текст чека
  * @param expectedAmount Ожидаемая сумма
- * @returns { success: boolean, amount?: number, error?: string }
+ * @returns Результат проверки
  */
 export function checkPaymentUniversal(
   recognizedText: string,
   expectedAmount: number,
-): { success: boolean; amount?: number; error?: string } {
-  const amount = extractPaymentAmount(recognizedText);
-
-  if (amount === null) {
-    return { success: false, error: 'Сумма платежа не найдена' };
+): { success: boolean; error?: string } {
+  if (isAmountPresent(recognizedText, expectedAmount)) {
+    return { success: true };
   }
 
-  if (Math.abs(amount - expectedAmount) > 0.01) {
-    return {
-      success: false,
-      error: `Сумма не совпадает (${amount} ≠ ${expectedAmount})`,
-    };
-  }
-
-  return { success: true, amount };
+  return {
+    success: false,
+    error: `Сумма ${expectedAmount} не найдена в чеке`,
+  };
 }
 
 export const errorPaymentUniversalMessageText = () => {
-  const text = `
- ⚠️ Проблема с проверкой платежа
-Возможные причины:
-1. Сумма не видна или засвечена
-2. Неправильный формат чека
-3. Проблемы с соединением
-Попробуйте отправить чек еще раз
+  return `
+⚠️ Проблема с проверкой платежа
+Пожалуйста, убедитесь что:
+1. Фото чека хорошего качества
+2. Вы отправили правильный чек
 `;
-
-  return text;
 };
