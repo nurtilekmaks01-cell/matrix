@@ -3,42 +3,55 @@
  * @param text Распознанный текст чека
  * @returns Найденная сумма (null, если не найдена)
  */
-function extractPaymentAmount(text: string): number | null {
-  // Нормализация текста
-  const cleanText = text
-    .replace(/\s+/g, ' ') // Удаляем лишние пробелы
-    .replace(/(\d)\s+([.,]\d{2})/g, '$1$2') // Исправляем "7 000.00" → "7000.00"
-    .toLowerCase();
+function extractMBankAmount(text: string): number | null {
+  const patterns = [
+    // Вариант 1: Сумма после "Сумма" (учитываем разные форматы)
+    /Сумма[\s:]*(\d+[.,]\d{2})/i,
 
-  // Улучшенные шаблоны для всех банков
-  const amountPatterns = [
-    // Для SimBank (формат "7000 с")
-    /(\d{3,})\s*с(?!\w)/, // Ищем 3+ цифры перед "с"
+    // Вариант 2: Сумма в строке с "- 100,00 ©"
+    /-\s*(\d+[.,]\d{2})\s*©/,
 
-    // Для О!Деньги (формат "50,00 с")
-    /(\d+[.,]\d{2})\s*с(?!\w)/,
+    // Вариант 3: Сумма в формате "100.00 К&5"
+    /(\d+[.,]\d{2})\s*К&5/,
 
-    // Для MBank (формат "Сумма 100.00")
-    /(сумма|итого|оплачено)\s*[:]?\s*(\d+[.,]\d{2})/i,
-
-    // Общий паттерн для чисел с валютой
-    /(\d+[.,]?\d*)\s*(сом|kgs|₸|тенге|руб|₽|©|с)/i,
-
-    // Числа в конце строки после "-"
-    /-\s*(\d+[.,]?\d*)\s*$/m,
+    // Вариант 4: Сумма в конце строки с валютой
+    /(\d+[.,]\d{2})\s*(сом|kgs|₸|©|с)/i,
   ];
 
-  for (const pattern of amountPatterns) {
-    const match = cleanText.match(pattern);
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
     if (match) {
-      const amountStr = (match[1] || match[2])
-        .replace(',', '.') // Заменяем запятую на точку
-        .replace(/\s+/g, ''); // Удаляем пробелы в числах (7 000 → 7000)
-
+      const amountStr = match[1].replace(',', '.');
       const amount = parseFloat(amountStr);
       if (!isNaN(amount)) {
         return amount;
       }
+    }
+  }
+
+  return null;
+}
+
+function extractPaymentAmount(text: string): number | null {
+  // Сначала проверяем специфичные форматы банков
+  if (text.includes('МВАМК') || text.includes('Сумма')) {
+    const mbankAmount = extractMBankAmount(text);
+    if (mbankAmount) return mbankAmount;
+  }
+
+  // Затем общие шаблоны
+  const generalPatterns = [
+    /(\d+[.,]\d{2})\s*(сом|kgs|₸|тенге|руб|₽|©|с)/i,
+    /-\s*(\d+[.,]?\d*)\s*$/m,
+    /(\d+)\s*с(?!\w)/i,
+  ];
+
+  for (const pattern of generalPatterns) {
+    const match = text.match(pattern);
+    if (match) {
+      const amountStr = (match[1] || match[2]).replace(',', '.');
+      const amount = parseFloat(amountStr);
+      if (!isNaN(amount)) return amount;
     }
   }
 
