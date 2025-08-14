@@ -37,8 +37,6 @@ export const editFaqActions = async (args: IEditFaqAction) => {
 
   const faqId = String(callback_data).replace('edit_', '');
 
-  console.log(faqId);
-
   const faq = await faqService.findOne(Number(faqId));
 
   if (!faq) {

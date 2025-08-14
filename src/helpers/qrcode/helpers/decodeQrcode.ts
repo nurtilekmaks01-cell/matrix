@@ -2,7 +2,7 @@
 import { DecodeQrCodeDto } from '../dto/decode-qr-code.dto';
 import { Jimp } from 'jimp';
 import jsQR from 'jsqr';
-import { recognize } from 'tesseract.js';
+import { recognizeText } from './recognize';
 
 export const decodeQrCodeBuffer = async (qrcodeDto: DecodeQrCodeDto) => {
   const { buffer } = qrcodeDto;
@@ -16,9 +16,7 @@ export const decodeQrCodeBuffer = async (qrcodeDto: DecodeQrCodeDto) => {
       height: image.bitmap.height,
     };
 
-    const { data } = await recognize(buffer, 'rus');
-
-    const text = data.text;
+    const text = recognizeText(buffer);
 
     const decodeQR = jsQR(imageData.data, imageData.width, imageData.height);
 

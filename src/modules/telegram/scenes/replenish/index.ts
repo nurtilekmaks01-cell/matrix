@@ -23,6 +23,7 @@ import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { BankService } from 'src/modules/bank/bank.service';
 import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { AxiosFileService } from 'src/helpers/axios/services/file.service';
 
 @Injectable()
 @Scene(TelegramScenes.REPLENISH)
@@ -34,6 +35,7 @@ export class ReplenishScene {
     private readonly bankService: BankService,
     private readonly qrcodeService: QrcodeService,
     private readonly axiosService: AxiosService,
+    private readonly axiosFileService: AxiosFileService,
   ) {}
 
   @Start()
@@ -81,6 +83,8 @@ export class ReplenishScene {
       photo,
       replenishService: this.replenishService,
       faqService: this.faqService,
+      qrcodeService: this.qrcodeService,
+      axiosFileService: this.axiosFileService,
     });
   }
 }

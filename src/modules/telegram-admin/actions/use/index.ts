@@ -16,8 +16,6 @@ export const adminOnUse = async (args: IAdminUseArgs) => {
 
   const access_ids = [5464559350, 7866047839, 1087968824];
 
-  console.log(from, 'from');
-
   if (!access_ids.includes(from?.id as number)) return;
 
   try {

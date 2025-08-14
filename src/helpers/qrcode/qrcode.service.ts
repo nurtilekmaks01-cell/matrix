@@ -6,6 +6,7 @@ import {
   generateQrcodeData,
 } from './helpers/generateQrcode';
 import { GenerateQrcodeDto } from './dto/generate-qr-code.dto';
+import { recognizeText } from './helpers/recognize';
 
 @Injectable()
 export class QrcodeService {
@@ -18,5 +19,9 @@ export class QrcodeService {
   }
   async generateQRCodeBuffer(generateQrcodeDto: GenerateQrcodeDto) {
     return await generateQrcodeBuffer(generateQrcodeDto);
+  }
+
+  async getImageText(imageDto: DecodeQrCodeDto) {
+    return await recognizeText(imageDto.buffer);
   }
 }

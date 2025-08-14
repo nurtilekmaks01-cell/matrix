@@ -38,7 +38,5 @@ export const editFaqSceneEnter = async (args: IEditFaqEnterArgs) => {
   const text = generateText();
   const inline_keyboard = await generateInlineKeyboard({ ...args });
 
-  console.log(inline_keyboard, 'inline', ctx.scene.current?.id);
-
   await ctx.replyWithHTML(text, { reply_markup: { inline_keyboard } });
 };

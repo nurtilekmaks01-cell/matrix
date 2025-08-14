@@ -27,9 +27,6 @@ export class AutoReplyService {
 
     for (const user of users) {
       try {
-        console.log(user, 'user');
-        console.log(replyMessageDto, 'replyMessageDto');
-
         const chat_id = Number(user.telegram_id);
         if (type === AutoReplyType.TEXT) {
           await this.telegraf.telegram.sendMessage(chat_id, text);

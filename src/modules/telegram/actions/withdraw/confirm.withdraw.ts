@@ -30,8 +30,6 @@ export const confirmWithdrawRequestAction = async (args: IConfirmRequest) => {
   const from = ctx.from;
   const telegram_id = String(from?.id);
 
-  console.log(telegram_id, 'telegrm');
-
   const user = await userService.findOneWithOptions({ where: { telegram_id } });
   if (!user) return;
 

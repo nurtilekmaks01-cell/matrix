@@ -61,8 +61,6 @@ export const withdrawMessageSecretCode = async (args: IWithdrawSecretCode) => {
 
   const payout = await axiosService.payout(String(session.bet_id), text);
 
-  console.log(payout, 'apyout');
-
   if (!payout?.Success) {
     await ctx.reply(
       payout.Message ||

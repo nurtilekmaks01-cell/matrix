@@ -19,16 +19,12 @@ export const onUseAction = async (args: IOnUseActionArgs) => {
 
   const error_group_id = telegramConfig.error_chat_id;
 
-  console.log(chat, 'chat');
-
   const user = await ensureUserExists({
     from,
     userService,
     telegramConfig,
     ctx,
   });
-
-  console.log(user, 'user');
 
   if (user.is_baned) {
     const text = isBanedText();
