@@ -30,8 +30,6 @@ function isAmountPresent(text: string, targetAmount: number): boolean {
   // Удаляем дубликаты
   const uniqueVariants = [...new Set(amountVariants)];
 
-  console.log(uniqueVariants, 'amountVariants');
-
   // Проверяем все варианты
   return uniqueVariants.some(
     (variant) =>

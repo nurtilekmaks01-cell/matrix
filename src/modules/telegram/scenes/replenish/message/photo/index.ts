@@ -41,6 +41,8 @@ export const replenishPhoto = async (args: IPhotoArgs) => {
     return;
   }
 
+  const loadingMessage = await ctx.replyWithHTML('⏳');
+
   const { href } = await ctx.telegram.getFileLink(popPhoto.file_id);
 
   const buffer = await axiosFileService.getBufferResponse({
@@ -71,6 +73,7 @@ export const replenishPhoto = async (args: IPhotoArgs) => {
     message_id: String(message.message_id),
   });
 
+  await ctx.deleteMessage(loadingMessage.message_id);
   clearReplenishSession(session);
   await leaveScene({ ctx });
 };
