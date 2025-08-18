@@ -5,39 +5,57 @@
  * @returns true если сумма найдена
  */
 function isAmountPresent(text: string, targetAmount: number): boolean {
-  // Сначала нормализуем текст (удаляем лишние пробелы и приводим к нижнему регистру)
-  const cleanText = text.toLowerCase().replace(/\s+/g, ' ');
+  // Нормализуем текст
+  const cleanText = text.toLowerCase().replace('-', '').replace(/\s+/g, ''); // Удаляем точки и запятые для упрощения сравнения
 
-  // Все возможные варианты написания суммы
-  const amountVariants = [
-    targetAmount.toString(), // "2000"
-    targetAmount.toFixed(2).replace('.', ','), // "2000,00"
-    targetAmount.toFixed(2), // "2000.00"
-    new Intl.NumberFormat('ru-RU').format(targetAmount), // "2 000"
-    // Варианты с пробелами и запятыми
-    new Intl.NumberFormat('ru-RU').format(targetAmount) + ',00', // "2 000,00"
-    new Intl.NumberFormat('en-US').format(targetAmount) + '.00', // "2,000.00"
-    // Варианты с валютами
-    `${targetAmount} с`,
-    `${targetAmount} сом`,
-    `${targetAmount} ©`,
-    `${targetAmount.toFixed(2)} К©С5`,
-    // Дополнительные форматы из примеров
-    `- ${new Intl.NumberFormat('ru-RU').format(targetAmount)},00 ©`, // "- 2 000,00 ©"
-    `${new Intl.NumberFormat('en-US').format(targetAmount)}.00 к©с5`, // "2,000.00 К©С5"
+  // Создаем варианты суммы без форматирования
+  const simpleAmount = targetAmount.toString();
+
+  console.log(cleanText, 'ccleanText');
+
+  // Ключевые фразы, после которых идет сумма
+  const amountPrefixes = [
+    'проведено',
+    'сумма платежа:',
+    'сумма итого:',
+    'сумма:',
+    'amount:',
+    'kgs',
+    'кбс5',
+    'кс$',
   ];
 
-  // Удаляем дубликаты
-  const uniqueVariants = [...new Set(amountVariants)];
+  // Создаем шаблоны для поиска
+  const patterns = [
+    // Варианты с префиксами (например "сумма платежа: 10000")
+    ...amountPrefixes.map((prefix) => `${prefix}\\s*${simpleAmount}`),
+
+    // Варианты с валютой (например "10000 kgs")
+    `${simpleAmount}\\s*(kgs|кбс5|кс$|сом|с)`,
+
+    // Варианты с разделителями (например "10 000")
+    simpleAmount,
+    new Intl.NumberFormat('ru-RU').format(targetAmount).replace(/,/g, ''),
+    `${new Intl.NumberFormat('ru-RU').format(targetAmount).replace(/,/g, '')}.00`,
+    `${new Intl.NumberFormat('ru-RU').format(targetAmount).replace(/,/g, '')},00`,
+    new Intl.NumberFormat('en-US').format(targetAmount).replace(/,/g, ''),
+  ];
+
+  console.log(patterns, '[atter]');
+
+  console.log(cleanText.includes('2 385,00'), '2 385,00');
 
   // Проверяем все варианты
-  return uniqueVariants.some(
-    (variant) =>
-      cleanText.includes(variant.toLowerCase()) ||
-      new RegExp(`\\b${variant}\\b`, 'i').test(cleanText),
-  );
-}
+  const results = patterns.find((pattern) => {
+    console.log(cleanText.includes(pattern), pattern, 'patter');
 
+    return cleanText.includes(pattern);
+  });
+
+  console.log(results, 'resulsta');
+
+  return !!results;
+}
 /**
  * Упрощенная проверка платежа (только точное совпадение)
  * @param recognizedText Текст чека

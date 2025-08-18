@@ -6,7 +6,7 @@ import { writeFileSync } from 'fs';
 export async function recognizeText(buffer: Buffer) {
   writeFileSync('debug-image.png', buffer);
 
-  const { data } = await recognize(buffer, 'rus');
+  const { data } = await recognize(buffer, 'rus+eng');
 
   console.log(data, 'data');
 
