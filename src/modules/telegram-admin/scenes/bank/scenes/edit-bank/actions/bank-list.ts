@@ -51,8 +51,6 @@ export const editBankListAction = async (args: IEditBankListArgs) => {
 
   const numberBankId = Number(bankId);
 
-  console.log(numberBankId, 'numberBankId');
-
   const bank = await bankService.findOneWithOptions({
     where: { id: numberBankId },
   });

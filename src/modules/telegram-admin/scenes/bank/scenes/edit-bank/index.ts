@@ -10,6 +10,7 @@ import { BankService } from 'src/modules/bank/bank.service';
 import { editBankACtion } from './actions/edit-bank';
 import { editBankListAction } from './actions/bank-list';
 import { deleteBankACtion } from './actions/delete-bank';
+import { clearInlineKeyboard } from 'src/modules/telegram/actions/inline-keyboard/clear-inline-keyboard';
 
 @Injectable()
 @Scene(EBankSceneActions.EDIT_BANK)
@@ -42,14 +43,17 @@ export class AdminTelegramEditBankScene {
   @Action(/edit_(.+)/)
   async onAction(@Ctx() ctx: SceneContext) {
     await editBankListAction({ ctx, bankService: this.bankService });
+    await clearInlineKeyboard({ ctx });
   }
 
   @Action(/change_(.+)/)
   async onConfirmAction(@Ctx() ctx: SceneContext) {
     await editBankACtion({ ctx, bankService: this.bankService });
+    await clearInlineKeyboard({ ctx });
   }
   @Action(/delete_(.+)/)
   async onConfirmDeleteAction(@Ctx() ctx: SceneContext) {
     await deleteBankACtion({ ctx, bankService: this.bankService });
+    await clearInlineKeyboard({ ctx });
   }
 }

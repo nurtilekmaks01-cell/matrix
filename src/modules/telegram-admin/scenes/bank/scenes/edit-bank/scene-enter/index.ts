@@ -4,7 +4,7 @@ import { SceneContext } from 'telegraf/typings/scenes';
 
 const generateText = () => {
   const text = `
-Edit bank`;
+Выберите банк для редактирования`;
 
   return text;
 };

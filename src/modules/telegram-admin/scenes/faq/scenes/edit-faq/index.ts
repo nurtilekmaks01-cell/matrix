@@ -7,6 +7,7 @@ import { editFaqActions } from './actions/edit-faq';
 import { adminOnStart } from 'src/modules/telegram-admin/actions/start';
 import { leaveScene } from 'src/modules/telegram/scenes';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
+import { clearInlineKeyboard } from 'src/modules/telegram/actions/inline-keyboard/clear-inline-keyboard';
 
 @Scene(EFaqSceneActions.EDIT_FAQ)
 export class AdminTelegramEditFaqScene {
@@ -38,5 +39,6 @@ export class AdminTelegramEditFaqScene {
   @Action(/edit_(.+)/)
   async onFaqEdit(@Ctx() ctx: SceneContext) {
     await editFaqActions({ ctx, faqService: this.faqService });
+    await clearInlineKeyboard({ ctx });
   }
 }

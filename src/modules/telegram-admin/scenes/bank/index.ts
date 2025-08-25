@@ -8,6 +8,7 @@ import { leaveScene } from 'src/modules/telegram/scenes';
 import { adminBankSceneEnter } from './scene-enter';
 import { EBankSceneActions } from './types';
 import { bankSceneAction } from './actions/bank-scene-action';
+import { clearInlineKeyboard } from 'src/modules/telegram/actions/inline-keyboard/clear-inline-keyboard';
 
 @Injectable()
 @Scene(ETelegramAdminActions.BANK)
@@ -40,5 +41,6 @@ export class AdminTelegramBankScene {
   @Action(Object.values(EBankSceneActions))
   async onBankSceneAction(@Ctx() ctx: SceneContext) {
     await bankSceneAction({ ctx });
+    await clearInlineKeyboard({ ctx });
   }
 }

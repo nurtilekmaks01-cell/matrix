@@ -21,6 +21,7 @@ import { PhotoSize } from 'telegraf/typings/core/types/typegram';
 import { ETelegramAdminNewsActions } from './actions';
 import { newsSendActions } from './actions/send';
 import { AutoReplyService } from 'src/helpers/auto-reply/auto-reply.service';
+import { clearInlineKeyboard } from 'src/modules/telegram/actions/inline-keyboard/clear-inline-keyboard';
 
 @Injectable()
 @Scene(ETelegramAdminActions.NEWS)
@@ -66,5 +67,6 @@ export class AdminTelegramNewsScene {
   @Action(ETelegramAdminNewsActions.SEND)
   async onNewsAction(@Ctx() ctx: SceneContext) {
     await newsSendActions({ ctx, autoReplyService: this.autoReplyService });
+    await clearInlineKeyboard({ ctx });
   }
 }

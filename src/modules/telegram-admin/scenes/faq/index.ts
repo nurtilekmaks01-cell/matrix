@@ -8,6 +8,7 @@ import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard
 import { adminFaqSceneEnter } from './scene-enter';
 import { EFaqSceneActions } from './types';
 import { faqAction } from './actions/faq-action';
+import { clearInlineKeyboard } from 'src/modules/telegram/actions/inline-keyboard/clear-inline-keyboard';
 
 @Injectable()
 @Scene(ETelegramAdminActions.FAQ)
@@ -40,5 +41,6 @@ export class AdminTelegramFaqScene {
   @Action(Object.values(EFaqSceneActions))
   async onFaqAction(@Ctx() ctx: SceneContext) {
     await faqAction({ ctx });
+    await clearInlineKeyboard({ ctx });
   }
 }
