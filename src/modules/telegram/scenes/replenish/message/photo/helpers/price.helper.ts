@@ -39,6 +39,10 @@ function isAmountPresent(text: string, targetAmount: number): boolean {
     `${new Intl.NumberFormat('ru-RU').format(targetAmount).replace(/,/g, '')}.00`,
     `${new Intl.NumberFormat('ru-RU').format(targetAmount).replace(/,/g, '')},00`,
     new Intl.NumberFormat('en-US').format(targetAmount).replace(/,/g, ''),
+    new Intl.NumberFormat('ru-RU').format(targetAmount),
+    `${new Intl.NumberFormat('ru-RU').format(targetAmount)}.00`,
+    `${new Intl.NumberFormat('ru-RU').format(targetAmount)},00`,
+    new Intl.NumberFormat('en-US').format(targetAmount),
   ];
 
   console.log(patterns, '[atter]');

@@ -8,6 +8,8 @@ import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard
 import { editBankSceneEnter } from './scene-enter';
 import { BankService } from 'src/modules/bank/bank.service';
 import { editBankACtion } from './actions/edit-bank';
+import { editBankListAction } from './actions/bank-list';
+import { deleteBankACtion } from './actions/delete-bank';
 
 @Injectable()
 @Scene(EBankSceneActions.EDIT_BANK)
@@ -39,6 +41,15 @@ export class AdminTelegramEditBankScene {
 
   @Action(/edit_(.+)/)
   async onAction(@Ctx() ctx: SceneContext) {
+    await editBankListAction({ ctx, bankService: this.bankService });
+  }
+
+  @Action(/change_(.+)/)
+  async onConfirmAction(@Ctx() ctx: SceneContext) {
     await editBankACtion({ ctx, bankService: this.bankService });
+  }
+  @Action(/delete_(.+)/)
+  async onConfirmDeleteAction(@Ctx() ctx: SceneContext) {
+    await deleteBankACtion({ ctx, bankService: this.bankService });
   }
 }
