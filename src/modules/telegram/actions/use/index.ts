@@ -16,6 +16,13 @@ export const onUseAction = async (args: IOnUseActionArgs) => {
   const { ctx, next, telegramConfig, userService } = args;
   const chat = ctx.chat;
   const from = ctx.from as User;
+  const callback = ctx.callbackQuery;
+
+  if (chat?.type === 'supergroup') {
+    if (!callback) {
+      return;
+    }
+  }
 
   const error_group_id = telegramConfig.error_chat_id;
 
