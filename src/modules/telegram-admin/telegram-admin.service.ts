@@ -24,6 +24,9 @@ import { replenishBanCommand } from './commands/ban';
 import { replenishUnBanCommand } from './commands/unban';
 import { ReplenishService } from '../replenish/replenish.service';
 import { UserService } from '../user/user.service';
+import { FileTelegramService } from 'src/helpers/local-file/services/telegram.service';
+import { telegramStopCommand } from './commands/stop';
+import { telegramRunCommand } from './commands/run';
 
 @Injectable()
 @Update()
@@ -33,6 +36,7 @@ export class TelegramAdminService extends Telegraf<SceneContext> {
     private readonly axiosService: AxiosService,
     private readonly replenishService: ReplenishService,
     private readonly userService: UserService,
+    private readonly fileTelegramService: FileTelegramService,
   ) {
     super(telegramConfig.admin_bot_token);
   }
@@ -84,6 +88,22 @@ export class TelegramAdminService extends Telegraf<SceneContext> {
       ctx,
       replenishService: this.replenishService,
       usersService: this.userService,
+    });
+  }
+
+  @Command('stop')
+  async onStopCommand(@Ctx() ctx: SceneContext) {
+    await telegramStopCommand({
+      ctx,
+      fileTelegramService: this.fileTelegramService,
+    });
+  }
+
+  @Command('run')
+  async onRunCommand(@Ctx() ctx: SceneContext) {
+    await telegramRunCommand({
+      ctx,
+      fileTelegramService: this.fileTelegramService,
     });
   }
 }

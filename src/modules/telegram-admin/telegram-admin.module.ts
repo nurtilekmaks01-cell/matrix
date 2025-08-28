@@ -15,6 +15,7 @@ import { AdminTelegramNewsScene } from './scenes/news';
 import { AutoReplyModule } from 'src/helpers/auto-reply/auto-reply.module';
 import { ReplenishModule } from '../replenish/replenish.module';
 import { UserModule } from '../user/user.module';
+import { LocalFileModule } from 'src/helpers/local-file/local-file.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserModule } from '../user/user.module';
     AutoReplyModule,
     ReplenishModule,
     UserModule,
+    LocalFileModule,
   ],
   controllers: [],
   providers: [

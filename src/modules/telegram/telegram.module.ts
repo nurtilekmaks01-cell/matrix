@@ -11,6 +11,7 @@ import { KeyupModule } from 'src/helpers/keyup/keyup.module';
 import { BankModule } from '../bank/bank.module';
 import { QrcodeModule } from 'src/helpers/qrcode/qrcode.module';
 import { AxiosModule } from 'src/helpers/axios/axios.module';
+import { LocalFileModule } from 'src/helpers/local-file/local-file.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AxiosModule } from 'src/helpers/axios/axios.module';
     BankModule,
     QrcodeModule,
     AxiosModule,
+    LocalFileModule,
   ],
   controllers: [],
   providers: [TelegramService, ReplenishScene, WithdrawScene],

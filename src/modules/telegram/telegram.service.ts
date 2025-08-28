@@ -26,6 +26,7 @@ import { confirmWithdrawRequestAction } from './actions/withdraw/confirm.withdra
 import { FaqService } from 'src/helpers/faq/faq.service';
 import { TELEGRAM_ACTION_KEYBOARDS } from './actions/keyboard';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { FileTelegramService } from 'src/helpers/local-file/services/telegram.service';
 
 @Injectable()
 @Update()
@@ -37,6 +38,7 @@ export class TelegramService extends Telegraf<SceneContext> {
     private readonly withdrawService: WithdrawService,
     private readonly faqService: FaqService,
     private readonly axiosService: AxiosService,
+    private readonly fileTelegramService: FileTelegramService,
   ) {
     super(telegramConfig.bot_token);
   }
@@ -48,6 +50,7 @@ export class TelegramService extends Telegraf<SceneContext> {
       next,
       telegramConfig: this.telegramConfig,
       userService: this.userService,
+      fileTelegramService: this.fileTelegramService,
     });
   }
 
