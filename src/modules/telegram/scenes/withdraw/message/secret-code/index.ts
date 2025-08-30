@@ -71,6 +71,7 @@ export const withdrawMessageSecretCode = async (args: IWithdrawSecretCode) => {
 
   session.secret_code = text;
   session.price = String(payout.Summa);
+  // session.price = '-10000';
 
   const replyText = generateUserText({ session, faqService });
   const keyboard = generateKeyboard();

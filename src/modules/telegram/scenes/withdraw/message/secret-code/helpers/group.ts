@@ -9,6 +9,7 @@ import { WITHDRAW_INLINE_KEYBOARDS } from './inline-keyboard';
 import { User } from 'src/modules/user/entities/user.entity';
 import { ERequest } from 'src/shared/types/request';
 import { REPLENISH_REQUEST_STATUS_TEXT } from 'src/modules/telegram/scenes/replenish/actions/status.action';
+import { formatRussianPrice } from 'src/shared/utils/helpers/price.helper';
 
 interface ICreateArgs {
   withdrawService: WithdrawService;
@@ -44,7 +45,7 @@ export const withdrawInitialText = (args: WithdrawInitialArgs) => {
   const text = `
 ФИО: ${withdraw.name}
 🆔: <code>${withdraw.bet_id}</code>
-Сумма: ${withdraw.price || 'не указана'}
+Сумма: ${formatRussianPrice(Number(withdraw.price)) || 'не указана'}
 🏦:${withdraw.bank}
 📳: <code>${withdraw.phone_number}</code>
 code: <code>${withdraw.secret_code}</code>

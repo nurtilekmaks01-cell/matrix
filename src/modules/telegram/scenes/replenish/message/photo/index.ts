@@ -51,12 +51,9 @@ export const replenishPhoto = async (args: IPhotoArgs) => {
 
   const text = await qrcodeService.getImageText({ buffer });
 
-  console.log(text, 'text', 'jj');
+  const numberPrice = parseInt(String(session.price));
 
-  const result = checkPaymentUniversal(
-    text,
-    Number(Number(session.price || '').toFixed(2)),
-  );
+  const result = checkPaymentUniversal(text, numberPrice);
 
   if (!result.success) {
     await ctx.reply(result.error || errorPaymentUniversalMessageText());

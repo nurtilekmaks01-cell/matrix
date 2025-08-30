@@ -2,6 +2,7 @@ import { Replenish } from 'src/modules/replenish/entities/replenish.entity';
 import { ERequest } from 'src/shared/types/request';
 import { User } from 'src/modules/user/entities/user.entity';
 import { REPLENISH_REQUEST_STATUS_TEXT } from '../../../actions/status.action';
+import { formatRussianPrice } from 'src/shared/utils/helpers/price.helper';
 
 interface IInitialTextArgs {
   replenish: Replenish;
@@ -12,7 +13,7 @@ export const initialReplenishGroupText = (args: IInitialTextArgs) => {
   const text = `
 🆔ID 1XBET: <code>${replenish.bet_id}</code>
 
-💵Сумма: ${replenish.price}
+💵Сумма: ${formatRussianPrice(Number(replenish.price))}
 
 ФИО: ${replenish.name}
 
