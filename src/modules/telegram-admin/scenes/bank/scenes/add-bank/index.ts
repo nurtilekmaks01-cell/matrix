@@ -21,6 +21,7 @@ import { onMessagePhoto } from './messages/photo';
 import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 import { AxiosFileService } from 'src/helpers/axios/services/file.service';
 import { BankService } from 'src/modules/bank/bank.service';
+import { clearAddBankSession } from './session';
 
 @Injectable()
 @Scene(EBankSceneActions.ADD_BANK)
