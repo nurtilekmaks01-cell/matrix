@@ -29,7 +29,7 @@ export const ensureUserExists = async (args: IExistingUserArgs) => {
     user = await userService.create(createUserDto);
     await ctx.telegram.sendMessage(
       user_group_id,
-      `Новый пользователь: ${user.first_name} (@${user.username})`,
+      `Новый пользователь: ${user.first_name} (@${user.username})\nuser_id:${user.id}\ntelegram_id:${user.telegram_id}`,
     );
   }
 

@@ -10,8 +10,9 @@ export const generateReplenishConfirmApiText = (args: IMessageArgs) => {
 
   const text = `
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.API]}
-🆔ID 1XBET: ${replenish.bet_id}
-💵Сумма: ${replenish.price}
+🆔 1xBet ID: <b>${replenish.bet_id}</b>
+💸 Сумма: <b>${replenish.price}</b>
+🔄 Статус: обработка
 `;
 
   return text;
@@ -22,8 +23,9 @@ export const generateReplenishConfirmApprovedText = (args: IMessageArgs) => {
 
   const text = `
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.APPROVED]}
-🆔ID 1XBET: ${replenish.bet_id}
-💵Сумма: ${replenish.price}
+🆔 1xBet ID: <b>${replenish.bet_id}</b>
+💸 Сумма: <b>${replenish.price}</b>
+✅ Статус: выполнено
 `;
 
   return text;
@@ -34,8 +36,9 @@ export const generateReplenishConfirmBanedText = (args: IMessageArgs) => {
 
   const text = `
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.BANED]}
-🆔ID 1XBET: ${replenish.bet_id}
-💵Сумма: ${replenish.price}
+🆔 1xBet ID: <b>${replenish.bet_id}</b>
+💸 Сумма: <b>${replenish.price}</b>
+❌ Статус: заблокировано
 `;
 
   return text;
@@ -46,8 +49,9 @@ export const generateReplenishConfirmCanceledText = (args: IMessageArgs) => {
 
   const text = `
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.CANCELED]}
-🆔ID 1XBET: ${replenish.bet_id}
-💵Сумма: ${replenish.price}
+🆔 1xBet ID: <b>${replenish.bet_id}</b>
+💸 Сумма: <b>${replenish.price}</b>
+⏹️ Статус: отменено
 `;
 
   return text;
