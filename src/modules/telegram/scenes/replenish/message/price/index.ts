@@ -11,10 +11,9 @@ import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 
 const generateText = () => {
   return `
-📎 <b>Отправьте чек об оплате</b>
+✅ <b>Отправьте подтверждение оплаты</b>
 
-Прикрепите скриншот или фото подтверждения платежа. 
-После проверки баланс будет пополнен.
+Прикрепите скриншот чека для проверки и пополнения счета.
   `;
 };
 
@@ -107,13 +106,13 @@ export const replenishMessagePrice = async (args: IPriceArgs) => {
 
   session.price = generatedPrice;
 
+  const bank = bankService.bank;
+
   const replyText = generateText();
   const replySubText = generateSubText({ price: generatedPrice });
 
   const keyboard = generateKeyboard();
   const subKeyboard = generateSubKeyboard({ bankService });
-
-  const bank = bankService.bank;
 
   const bufferImage = await qrcodeService.generateQRCodeBuffer({
     url: bank.href,

@@ -28,8 +28,6 @@ const generateInlineKeyboard = () => {
       text: START_ACTIONS_TEXT[START_ACTIONS.replenish],
       callback_data: START_ACTIONS.replenish,
     },
-  ]);
-  inlineKeyboard.push([
     {
       text: START_ACTIONS_TEXT[START_ACTIONS.withdraw],
       callback_data: START_ACTIONS.withdraw,
@@ -41,7 +39,8 @@ const generateInlineKeyboard = () => {
 
 const generateActionText = () => {
   const text = `
-✨ <b>Выберите действие</b>`;
+📝 <b>Выбор операции</b>
+`;
 
   return text;
 };

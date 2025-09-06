@@ -16,17 +16,11 @@ export class FaqService implements OnModuleInit {
 
   public faq: Faq = {
     id: 10000,
-    link: 'https://t.me/brucewayne_s_98',
-    username: '@brucewayne_s_98',
+    link: 'https://t.me/pingo_root',
+    username: '@pingo_root',
   };
 
-  public faq_list: Faq[] = [
-    {
-      id: 10000,
-      link: 'https://t.me/brucewayne_s_98',
-      username: '@brucewayne_s_98',
-    },
-  ];
+  public faq_list: Faq[] = [this.faq];
 
   async onModuleInit() {
     const bank_data = await this.fileFaqService.readFaqJsonFile();

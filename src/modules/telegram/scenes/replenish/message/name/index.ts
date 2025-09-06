@@ -4,14 +4,10 @@ import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { CreateKeyupDto } from 'src/helpers/keyup/dto/create-keyup.dto';
 import { EKeyupTypeAction } from 'src/helpers/keyup/shared/type';
-import { el } from 'date-fns/locale';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 
 const generateText = () => {
-  const text = `
-🆔 Введите ID вашего счета 1xbet
-`;
-
+  const text = `📋 <b>Идентификатор счета 1xbet:</b>\n\nПожалуйста, введите ваш уникальный ID аккаунта <b>1xbet</b>. Его можно найти в личном кабинете.`;
   return text;
 };
 
@@ -75,6 +71,10 @@ export const replenishMessageName = async (args: INameArgs) => {
 
   await ctx.replyWithPhoto(
     { source: session.bet.assets.id },
-    { caption: replyText, reply_markup: { keyboard, resize_keyboard: true } },
+    {
+      caption: replyText,
+      reply_markup: { keyboard, resize_keyboard: true },
+      parse_mode: 'HTML',
+    },
   );
 };

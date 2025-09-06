@@ -17,12 +17,11 @@ const generateText = (args: IGenerateTextArgs) => {
   const { price } = args;
 
   const text = `
-💰 <b>Введите сумму</b>
+🎯 <b>Укажите сумму пополнения</b>
 
-Укажите, сколько вы хотите внести.
+Сколько вы хотите внести на счет?
 
-Минимум: <b>${price.min}</b>  
-Максимум: <b>${price.max}</b>
+📊 Диапазон: от <b>${price.min}</b> до <b>${price.max}</b>
   `;
 
   return text.trim();
@@ -31,8 +30,8 @@ const generateText = (args: IGenerateTextArgs) => {
 const generateKeyboard = () => {
   const keyboard: KeyboardButton[][] = [];
 
-  keyboard.push([{ text: '500' }, { text: '700' }]);
-  keyboard.push([{ text: '1000' }, { text: '3000' }, { text: '5000' }]);
+  // keyboard.push([{ text: '500' }, { text: '700' }]);
+  // keyboard.push([{ text: '1000' }, { text: '3000' }, { text: '5000' }]);
 
   keyboard.push([{ text: TELEGRAM_ACTION_KEYBOARDS.CANCELED }]);
 
@@ -67,14 +66,14 @@ interface IBetIdArgs {
 export const replenishMessageBetId = async (args: IBetIdArgs) => {
   const { ctx, session, text, keyupService, telegram_id, axiosService } = args;
 
-  const findPlayer = await axiosService.findPlayer(text);
+  // const findPlayer = await axiosService.findPlayer(text);
 
-  if (!findPlayer) {
-    await ctx.reply(
-      'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
-    );
-    return;
-  }
+  // if (!findPlayer) {
+  //   await ctx.reply(
+  //     'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+  //   );
+  //   return;
+  // }
 
   session.bet_id = text;
 

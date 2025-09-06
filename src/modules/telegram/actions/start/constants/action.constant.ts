@@ -11,6 +11,6 @@ export const START_ACTIONS_SCENES = {
 };
 
 export const START_ACTIONS_TEXT = {
-  [START_ACTIONS.replenish]: '💰 Пополнить баланс',
-  [START_ACTIONS.withdraw]: '💸 Вывести средства',
+  [START_ACTIONS.replenish]: '💳  Пополнить',
+  [START_ACTIONS.withdraw]: '💵  Вывести',
 };
