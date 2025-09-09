@@ -121,6 +121,7 @@ export const replenishMessagePrice = async (args: IPriceArgs) => {
   await ctx.replyWithPhoto(
     { source: bufferImage },
     {
+      caption: replySubText,
       reply_markup: { inline_keyboard: subKeyboard },
     },
   );
