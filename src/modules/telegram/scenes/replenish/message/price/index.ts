@@ -123,6 +123,7 @@ export const replenishMessagePrice = async (args: IPriceArgs) => {
     {
       caption: replySubText,
       reply_markup: { inline_keyboard: subKeyboard },
+      parse_mode: 'HTML',
     },
   );
 
