@@ -44,10 +44,10 @@ export const generatePrice = (args: IGeneratePriceArgs) => {
 };
 
 export const generateNumberPrice = (price: number) => {
-  // return price.toFixed(0);
-  const generatedPrice = typeof price === 'string' ? parseFloat(price) : price;
-  const cents = Math.floor(Math.random() * 100);
-  const priceWithCents = generatedPrice + cents / 100;
-  const fixedPriceWithCents = priceWithCents.toFixed(2);
-  return fixedPriceWithCents;
+  return price.toFixed(0);
+  // const generatedPrice = typeof price === 'string' ? parseFloat(price) : price;
+  // const cents = Math.floor(Math.random() * 100);
+  // const priceWithCents = generatedPrice + cents / 100;
+  // const fixedPriceWithCents = priceWithCents.toFixed(2);
+  // return fixedPriceWithCents;
 };
