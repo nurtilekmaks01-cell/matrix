@@ -69,7 +69,9 @@ export const confirmReplenishRequestAction = async (
 
   const userMessage = REPLENISH_USER_REPLY_MESSAGES[callback_data];
 
-  await ctx.telegram.sendMessage(replenish.user.telegram_id, userMessage, {});
+  await ctx.telegram.sendMessage(replenish.user.telegram_id, userMessage, {
+    parse_mode: 'HTML',
+  });
 
   const user = await userService.findOneWithOptions({
     where: { telegram_id: String(from?.id) },

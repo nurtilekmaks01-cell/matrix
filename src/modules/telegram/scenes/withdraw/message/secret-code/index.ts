@@ -59,18 +59,18 @@ interface IWithdrawSecretCode {
 export const withdrawMessageSecretCode = async (args: IWithdrawSecretCode) => {
   const { ctx, session, text, faqService, axiosService } = args;
 
-  // const payout = await axiosService.payout(String(session.bet_id), text);
+  const payout = await axiosService.payout(String(session.bet_id), text);
 
-  // if (!payout?.Success) {
-  //   await ctx.reply(
-  //     payout.Message ||
-  //       'Ошибка при выводе средств. Пожалуйста, попробуйте снова.',
-  //   );
-  //   return;
-  // }
+  if (!payout?.Success) {
+    await ctx.reply(
+      payout.Message ||
+        'Ошибка при выводе средств. Пожалуйста, попробуйте снова.',
+    );
+    return;
+  }
 
   session.secret_code = text;
-  // session.price = String(payout.Summa);
+  session.price = String(payout.Summa);
   // session.price = '-10000';
 
   const replyText = generateUserText({ session, faqService });
