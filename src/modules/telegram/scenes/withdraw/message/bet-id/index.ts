@@ -41,14 +41,14 @@ interface IWithdrawBetIdArgs {
 export const withdrawMessageBetId = async (args: IWithdrawBetIdArgs) => {
   const { ctx, session, text, axiosService } = args;
 
-  const findPlayer = await axiosService.findPlayer(text);
+  // const findPlayer = await axiosService.findPlayer(text);
 
-  if (!findPlayer) {
-    await ctx.reply(
-      'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
-    );
-    return;
-  }
+  // if (!findPlayer) {
+  //   await ctx.reply(
+  //     'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+  //   );
+  //   return;
+  // }
 
   const replyText = generateText();
   const keyboard = generateKeyboard();

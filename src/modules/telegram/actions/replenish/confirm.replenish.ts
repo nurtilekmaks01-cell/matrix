@@ -115,18 +115,4 @@ export const confirmReplenishRequestAction = async (
       telegram_id: replenish.user.telegram_id,
     });
   }
-
-  if (status === ERequest.API) {
-    const response = await axiosService.deposit(
-      replenish.bet_id,
-      Number(replenish.price),
-    );
-
-    if (!response?.Success) {
-      await ctx.reply(
-        `Ошибка при пополнении: ${response?.Message}. Пожалуйста, свяжитесь с поддержкой.`,
-      );
-      return;
-    }
-  }
 };

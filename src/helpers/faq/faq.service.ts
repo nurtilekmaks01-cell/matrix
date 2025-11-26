@@ -16,8 +16,8 @@ export class FaqService implements OnModuleInit {
 
   public faq: Faq = {
     id: 10000,
-    link: 'https://t.me/pingo_root',
-    username: '@pingo_root',
+    link: 'https://t.me/DreamOperand',
+    username: '@DreamOperand',
   };
 
   public faq_list: Faq[] = [this.faq];

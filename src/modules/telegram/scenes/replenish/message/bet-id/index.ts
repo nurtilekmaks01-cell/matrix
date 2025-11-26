@@ -66,14 +66,14 @@ interface IBetIdArgs {
 export const replenishMessageBetId = async (args: IBetIdArgs) => {
   const { ctx, session, text, keyupService, telegram_id, axiosService } = args;
 
-  const findPlayer = await axiosService.findPlayer(text);
+  // const findPlayer = await axiosService.findPlayer(text);
 
-  if (!findPlayer) {
-    await ctx.reply(
-      'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
-    );
-    return;
-  }
+  // if (!findPlayer) {
+  //   await ctx.reply(
+  //     'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+  //   );
+  //   return;
+  // }
 
   session.bet_id = text;
 

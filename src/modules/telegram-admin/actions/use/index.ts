@@ -12,9 +12,11 @@ export const adminOnUse = async (args: IAdminUseArgs) => {
 
   const from = ctx.from;
 
+  console.log(from);
+
   const error_group_id = telegramConfig.error_chat_id;
 
-  const access_ids = [5464559350, 6846321643];
+  const access_ids = [5464559350, 8171068456];
 
   if (!access_ids.includes(from?.id as number)) return;
 

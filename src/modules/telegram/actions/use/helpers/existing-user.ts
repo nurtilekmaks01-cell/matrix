@@ -14,7 +14,6 @@ export const ensureUserExists = async (args: IExistingUserArgs) => {
   const { userService, from, telegramConfig, ctx } = args;
 
   const telegram_id = String(from.id);
-  const user_group_id = telegramConfig.user_chat_id;
 
   let user = await userService.findOneWithOptions({ where: { telegram_id } });
 
@@ -27,10 +26,6 @@ export const ensureUserExists = async (args: IExistingUserArgs) => {
     };
 
     user = await userService.create(createUserDto);
-    await ctx.telegram.sendMessage(
-      user_group_id,
-      `Новый пользователь: ${user.first_name} (@${user.username})\nuser_id:${user.id}\ntelegram_id:${user.telegram_id}`,
-    );
   }
 
   const action_count = user.action_count || 0;
