@@ -33,11 +33,15 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
         username: dbConfig.db_username,
         password: dbConfig.db_password,
         database: dbConfig.db_database,
-        synchronize: true,
         entities: [__dirname + '/**/*.entity{.js, .ts}'],
         extra: {
           options: '-c timezone=Asia/Almaty',
+          ssl: {
+            rejectUnauthorized: false,
+          },
         },
+        synchronize: true, // Set to false in production
+        ssl: true,
       }),
     }),
     TelegrafModule.forRootAsync({
