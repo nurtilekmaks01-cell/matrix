@@ -3,17 +3,11 @@ import { IWithdrawSession } from '../../session';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { assets } from 'src/assets';
 
 const generateText = () => {
   const text = `
 📱 <b>Инструкция по выводу средств:</b>
-
-1️⃣ Настройки
-2️⃣ Вывести со счета
-3️⃣ Наличными 
-4️⃣ Укажите сумму
-   🏙️ Город: <b>Бишкек</b>
-   📍 Улица: <b>Леваневского, 58</b>
 5️⃣ Подтвердить операцию
 6️⃣ Получить код подтверждения
 7️⃣ 📨 Отправить код нам
@@ -53,9 +47,15 @@ export const withdrawMessageBetId = async (args: IWithdrawBetIdArgs) => {
   const replyText = generateText();
   const keyboard = generateKeyboard();
 
-  await ctx.replyWithHTML(replyText, {
-    reply_markup: { keyboard, resize_keyboard: true },
-  });
+  await ctx.sendMediaGroup([
+    {
+      type: 'photo',
+      media: { source: assets.xbet.mobcash },
+      caption: replyText,
+      parse_mode: 'HTML',
+    },
+    { type: 'photo', media: { source: assets.xbet.mobcash_number } },
+  ]);
 
   session.bet_id = text;
 };

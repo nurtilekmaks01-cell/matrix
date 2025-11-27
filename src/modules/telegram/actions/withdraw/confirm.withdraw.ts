@@ -64,7 +64,9 @@ export const confirmWithdrawRequestAction = async (args: IConfirmRequest) => {
 
   const userMessage = WITHDRAW_USER_REPLY_MESSAGES[callback_data];
 
-  await ctx.telegram.sendMessage(withdraw.user.telegram_id, userMessage, {});
+  await ctx.telegram.sendMessage(withdraw.user.telegram_id, userMessage, {
+    parse_mode: 'HTML',
+  });
 
   const startDate = new Date(withdraw.createAt).getTime();
   const endDate = new Date(withdraw.updateAt).getTime();
