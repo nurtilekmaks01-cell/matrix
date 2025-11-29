@@ -13,7 +13,6 @@ export const generateWithdrawConfirmApiText = (args: IMessageArgs) => {
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.API]}
 📋 <b>Заявка на вывод:</b>
 🆔 ID 1xBet: <b>${withdraw.bet_id}</b>
-💳 Сумма: <b>${withdraw.price}</b>
 ⏱️ Статус: <b>На обработке</b>
 `;
 
@@ -27,7 +26,6 @@ export const generateWithdrawConfirmAprovedText = (args: IMessageArgs) => {
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.APPROVED]}
 🎉 <b>Вывод одобрен!</b>
 🆔 ID 1xBet: <b>${withdraw.bet_id}</b>
-💳 Сумма: <b>${withdraw.price}</b>
 ✅ Статус: <b>Выполнено</b>
 `;
 
@@ -41,7 +39,6 @@ export const generateWithdrawConfirmBanedText = (args: IMessageArgs) => {
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.BANED]}
 🚫 <b>Вывод отклонен</b>
 🆔 ID 1xBet: <b>${withdraw.bet_id}</b>
-💳 Сумма: <b>${withdraw.price}</b>
 ❌ Статус: <b>Заблокировано</b>
 `;
 
@@ -55,7 +52,6 @@ export const generateWithdrawConfirmCanceledText = (args: IMessageArgs) => {
 ${REPLENISH_REQUEST_STATUS_TEXT[ERequest.CANCELED]}
 ↩️ <b>Вывод отменен</b>
 🆔 ID 1xBet: <b>${withdraw.bet_id}</b>
-💳 Сумма: <b>${withdraw.price}</b>
 ⏹️ Статус: <b>Отменено</b>
 `;
 

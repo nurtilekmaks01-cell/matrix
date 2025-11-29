@@ -85,7 +85,7 @@ export const confirmWithdrawRequestAction = async (args: IConfirmRequest) => {
     withdraw,
   });
 
-  await ctx.editMessageText(editMessage, {
+  await ctx.editMessageCaption(editMessage, {
     // reply_markup: { inline_keyboard: [] },
     parse_mode: 'HTML',
   });

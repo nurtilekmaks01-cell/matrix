@@ -9,6 +9,7 @@ import { FaqService } from 'src/helpers/faq/faq.service';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { withdrawMessageName } from './name';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { withdrawMessageQrcodeEnter } from './photo';
 
 interface IWithdrawMessageArgs {
   ctx: SceneContext;
@@ -28,7 +29,9 @@ export const withdrawMessage = async (args: IWithdrawMessageArgs) => {
 
   const telegram_id = String(from.id);
 
-  if (!session.phone_number) {
+  if (!session.qrcode_file_id && !session.is_qrcode) {
+    await withdrawMessageQrcodeEnter({ ...args, session });
+  } else if (!session.phone_number) {
     await withdrawMessagePhoneNumber({ ...args, session, telegram_id });
   } else if (!session.name) {
     await withdrawMessageName({ ...args, session, telegram_id });

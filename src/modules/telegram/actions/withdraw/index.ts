@@ -20,21 +20,8 @@ export const withdrawRequestAction = async (args: IWithdrawActionArgs) => {
   if (!message) return;
 
   const callback_data = callback.data as ERequest;
-  const message_id = String(message.message_id);
-
-  const withdraw = await withdrawService.findOneWithOptions({
-    where: { message_id },
-    relations: ['user', 'admin'],
-  });
-
-  if (!withdraw) return;
-
-  const initialText = withdrawInitialText({ withdraw });
 
   const inline_keyboard = WITHDRAW_STATUS_INLINE_KEYBOARDS[callback_data];
 
-  await ctx.editMessageText(initialText, {
-    parse_mode: 'HTML',
-    reply_markup: { inline_keyboard },
-  });
+  await ctx.editMessageReplyMarkup({ inline_keyboard });
 };

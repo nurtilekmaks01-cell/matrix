@@ -22,7 +22,7 @@ const createWithdraw = async (args: ICreateArgs) => {
   const { session, withdrawService, text, message_id, telegram_id } = args;
 
   const createWithdrawDto: CreateWithdrawDto = {
-    bank: session.bank as EBanks,
+    bank: EBanks.QRCODE,
     bet_id: session.bet_id as string,
     name: session.name as string,
     phone_number: session.phone_number as string,
@@ -85,7 +85,7 @@ interface IWithdrawArgs {
   message_id: string;
 }
 export const sendWithdrawGroup = async (args: IWithdrawArgs) => {
-  const { ctx, telegramConfig, withdrawService } = args;
+  const { ctx, telegramConfig, withdrawService, session } = args;
 
   const from = ctx.from;
   const telegram_id = String(from?.id);
@@ -96,10 +96,11 @@ export const sendWithdrawGroup = async (args: IWithdrawArgs) => {
 
   const withdrawText = withdrawInitialText({ withdraw });
 
-  const message = await ctx.telegram.sendMessage(
+  const message = await ctx.telegram.sendPhoto(
     telegramConfig.withdraw_chat_id,
-    withdrawText,
+    String(session.qrcode_file_id),
     {
+      caption: withdrawText,
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: WITHDRAW_INLINE_KEYBOARDS,
