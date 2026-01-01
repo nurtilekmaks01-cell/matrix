@@ -17,6 +17,7 @@ export const createReplenish = async (args: IReplenishArgs) => {
     price: session.price as string,
     telegram_id,
     name: session.name as string,
+    bookmaker: session.bet.type,
   };
 
   const replenish = await replenishService.create(replenishCreateDto);

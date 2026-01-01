@@ -10,9 +10,15 @@ export const getBalance = async (args: IGetBalanceArgs) => {
   const { ctx, axiosService } = args;
 
   const response = await axiosService.getBalance();
+  const responseMelbet = await axiosService.getMelbetBalance();
 
   await ctx.replyWithHTML(`
-💰Баланс: <b>${formatRussianPrice(response?.Balance)}</b> сомов
-💰 Лимит: <b>${formatRussianPrice(response?.Limit)}</b> сомов
+<blockquote>1XBET</blockquote>
+💰Баланс: <b>${formatRussianPrice(response?.Balance || 0)}</b> сомов
+💰 Лимит: <b>${formatRussianPrice(response?.Limit || 0)}</b> сомов
+
+<blockquote>MELBET</blockquote>
+💰Баланс: <b>${formatRussianPrice(responseMelbet?.Balance || 0)}</b> сомов
+💰 Лимит: <b>${formatRussianPrice(responseMelbet?.Limit || 0)}</b> сомов
 `);
 };

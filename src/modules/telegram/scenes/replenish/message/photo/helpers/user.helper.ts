@@ -15,6 +15,7 @@ export const userReplenishSend = async (args: IUserArgs) => {
     bet_id: session.bet_id as string,
     price: session.price as string,
     faqService,
+    bookmaker: session.bet.type,
   });
 
   return await ctx.replyWithHTML(userText);

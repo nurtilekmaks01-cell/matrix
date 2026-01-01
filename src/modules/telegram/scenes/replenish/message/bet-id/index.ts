@@ -6,6 +6,7 @@ import { EKeyupTypeAction } from 'src/helpers/keyup/shared/type';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { EBookmakers } from 'src/shared/types/telegram';
 
 interface IGenerateTextArgs {
   price: {
@@ -66,14 +67,25 @@ interface IBetIdArgs {
 export const replenishMessageBetId = async (args: IBetIdArgs) => {
   const { ctx, session, text, keyupService, telegram_id, axiosService } = args;
 
-  // const findPlayer = await axiosService.findPlayer(text);
+  if (session.bet.type === EBookmakers.MELBET) {
+    const findPlayer = await axiosService.getMelbetUserInfo(text);
 
-  // if (!findPlayer) {
-  //   await ctx.reply(
-  //     'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
-  //   );
-  //   return;
-  // }
+    console.log(findPlayer, 'find player');
+
+    if (!findPlayer?.UserId) {
+      await ctx.reply(
+        'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+      );
+      return;
+    }
+
+    if (findPlayer.CurrencyId !== 7) {
+      await ctx.reply(
+        '❌ Неверная валюта. Операция доступна только для игроков с валютой KGS (сом).',
+      );
+      return;
+    }
+  }
 
   session.bet_id = text;
 

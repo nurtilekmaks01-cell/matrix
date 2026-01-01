@@ -5,9 +5,11 @@ import { CreateKeyupDto } from 'src/helpers/keyup/dto/create-keyup.dto';
 import { EKeyupTypeAction } from 'src/helpers/keyup/shared/type';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
+import { EBookmakers } from 'src/shared/types/telegram';
+import { assets } from 'src/assets';
 
-const generateText = () => {
-  const text = `📋 <b>Идентификатор счета 1xbet:</b>\n\nПожалуйста, введите ваш уникальный ID аккаунта <b>1xbet</b>. Его можно найти в личном кабинете.`;
+const generateText = (bookmaker: EBookmakers) => {
+  const text = `📋 <b>Идентификатор счета ${bookmaker}:</b>\n\nПожалуйста, введите ваш уникальный ID аккаунта <b>${bookmaker}</b>. Его можно найти в личном кабинете.`;
   return text;
 };
 
@@ -63,14 +65,21 @@ interface IWithdrawMessageNameArgs {
 export const withdrawMessageName = async (args: IWithdrawMessageNameArgs) => {
   const { ctx, keyupService, session, telegram_id, text } = args;
 
-  const replyText = generateText();
+  const replyText = generateText(session.bet.type);
 
   await createKeyup({ keyupService, telegram_id, value: text });
 
   const keyboard = await generateKeyboard({ keyupService, telegram_id });
 
+  const sources = {
+    [EBookmakers.MELBET]: assets.melbet.id,
+    [EBookmakers.XBET]: assets.xbet.id,
+  };
+
+  const source = sources[session.bet.type || EBookmakers.XBET];
+
   await ctx.replyWithPhoto(
-    { source: session.bet.assets.id },
+    { source },
     {
       caption: replyText,
       parse_mode: 'HTML',

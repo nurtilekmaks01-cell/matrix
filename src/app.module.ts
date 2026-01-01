@@ -19,6 +19,9 @@ import { LocalFileModule } from './helpers/local-file/local-file.module';
 import { QrcodeModule } from './helpers/qrcode/qrcode.module';
 import { AxiosModule } from './helpers/axios/axios.module';
 import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
+import { MelbetConfig } from './helpers/config/services/melbet.config';
+import { XbetConfig } from './helpers/config/services/xbet.config';
+import { EBookmakers } from './shared/types/telegram';
 
 @Module({
   imports: [
@@ -36,12 +39,12 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
         entities: [__dirname + '/**/*.entity{.js, .ts}'],
         extra: {
           options: '-c timezone=Asia/Almaty',
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          // ssl: {
+          //   rejectUnauthorized: false,
+          // },
         },
         synchronize: true, // Set to false in production
-        ssl: true,
+        // ssl: true,
       }),
     }),
     TelegrafModule.forRootAsync({
@@ -54,9 +57,81 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
           session({
             defaultSession(ctx) {
               const object: ITelegramDefaultSession = {
+                is_main: true,
                 replenish_chat_id: telegramConfig.replenish_chat_id,
                 withdraw_chat_id: telegramConfig.withdraw_chat_id,
                 bet: {
+                  type: EBookmakers.MELBET,
+                  assets: {
+                    id: assets.xbet.id,
+                  },
+                  price: {
+                    max: 100000,
+                    min: 35,
+                  },
+                },
+              };
+              return object;
+            },
+          }),
+        ],
+        include: [TelegramModule],
+        launchOptions: {
+          allowedUpdates: [],
+          dropPendingUpdates: true,
+        },
+      }),
+    }),
+    TelegrafModule.forRootAsync({
+      botName: 'capital_x_bot',
+      imports: [ConfigModule],
+      inject: [XbetConfig],
+      useFactory: (melbetConfig: XbetConfig) => ({
+        token: melbetConfig.bot_token,
+        middlewares: [
+          session({
+            defaultSession(ctx) {
+              const object: ITelegramDefaultSession = {
+                is_main: false,
+                replenish_chat_id: '',
+                withdraw_chat_id: '',
+                bet: {
+                  type: EBookmakers.XBET,
+                  assets: {
+                    id: assets.xbet.id,
+                  },
+                  price: {
+                    max: 100000,
+                    min: 35,
+                  },
+                },
+              };
+              return object;
+            },
+          }),
+        ],
+        include: [TelegramModule],
+        launchOptions: {
+          allowedUpdates: [],
+          dropPendingUpdates: true,
+        },
+      }),
+    }),
+    TelegrafModule.forRootAsync({
+      botName: 'capital_melbet_bot',
+      imports: [ConfigModule],
+      inject: [MelbetConfig],
+      useFactory: (melbetConfig: MelbetConfig) => ({
+        token: melbetConfig.bot_token,
+        middlewares: [
+          session({
+            defaultSession(ctx) {
+              const object: ITelegramDefaultSession = {
+                is_main: false,
+                replenish_chat_id: melbetConfig.replenish_chat_id,
+                withdraw_chat_id: melbetConfig.withdraw_chat_id,
+                bet: {
+                  type: EBookmakers.MELBET,
                   assets: {
                     id: assets.xbet.id,
                   },
@@ -87,9 +162,11 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
           session({
             defaultSession(ctx) {
               const object: ITelegramDefaultSession = {
+                is_main: true,
                 replenish_chat_id: telegramConfig.replenish_chat_id,
                 withdraw_chat_id: telegramConfig.withdraw_chat_id,
                 bet: {
+                  type: EBookmakers.MELBET,
                   assets: {
                     id: assets.xbet.id,
                   },

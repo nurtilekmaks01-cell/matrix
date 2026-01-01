@@ -7,6 +7,7 @@ import { SceneContext } from 'telegraf/typings/scenes';
 import { WELCOME_MESSAGE } from './constants/messages.constant';
 import { START_ACTIONS, START_ACTIONS_TEXT } from './constants/action.constant';
 import { FaqService } from 'src/helpers/faq/faq.service';
+import { ITelegramDefaultSession } from 'src/shared/types/session';
 
 interface IGenerateTextArgs {
   from: User | undefined;
@@ -51,11 +52,17 @@ interface IChooseActionsArgs {
 const chooseActions = async (args: IChooseActionsArgs) => {
   const { ctx } = args;
 
+  const session = ctx.session as ITelegramDefaultSession;
+
   const inline_keyboard = generateInlineKeyboard();
 
   const text = generateActionText();
 
-  await ctx.replyWithHTML(text, { reply_markup: { inline_keyboard } });
+  const message = await ctx.replyWithHTML(text, {
+    reply_markup: { inline_keyboard },
+  });
+
+  session.bet.choose_action_message_id = message.message_id;
 };
 
 interface IOnStartActionArgs {

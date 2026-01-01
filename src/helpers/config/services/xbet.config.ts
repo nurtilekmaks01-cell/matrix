@@ -9,11 +9,15 @@ export class XbetConfig {
   public cashdesk_id: number;
   public api_url: string;
 
+  public bot_token: string;
+
   constructor(private readonly configService: ConfigService) {
     this.hash = configService.getString('XBET_HASH');
     this.cashier_pass = configService.getString('XBET_CASHIER_PASS');
     this.login = configService.getString('XBET_LOGIN');
     this.cashdesk_id = configService.getNumber('XBET_CASHDESK_ID');
     this.api_url = configService.getString('XBET_API');
+
+    this.bot_token = configService.getString('XBET_BOT_TOKEN');
   }
 }

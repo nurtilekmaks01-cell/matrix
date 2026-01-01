@@ -24,6 +24,9 @@ import { BankService } from 'src/modules/bank/bank.service';
 import { QrcodeService } from 'src/helpers/qrcode/qrcode.service';
 import { AxiosService } from 'src/helpers/axios/axios.service';
 import { AxiosFileService } from 'src/helpers/axios/services/file.service';
+import { EBookmakers } from 'src/shared/types/telegram';
+import { replenishBookmakerAction } from './actions/bookmaker';
+import { clearInlineKeyboard } from '../../actions/inline-keyboard/clear-inline-keyboard';
 
 @Injectable()
 @Scene(TelegramScenes.REPLENISH)
@@ -59,6 +62,12 @@ export class ReplenishScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: SceneContext) {
     await replenishSceneEnter({ ctx, keyupService: this.keyupService });
+  }
+
+  @Action(Object.values(EBookmakers))
+  async onBookmakerAction(@Ctx() ctx: SceneContext) {
+    await clearInlineKeyboard({ ctx });
+    await replenishBookmakerAction({ ctx, keyupService: this.keyupService });
   }
 
   @On('text')

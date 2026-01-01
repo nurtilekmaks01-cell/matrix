@@ -5,6 +5,7 @@ import { TelegramConfig } from './services/telegram.config';
 import { AppConfig } from './services/app.config';
 import { DBConfig } from './services/db.config';
 import { XbetConfig } from './services/xbet.config';
+import { MelbetConfig } from './services/melbet.config';
 
 @Module({
   imports: [
@@ -14,7 +15,21 @@ import { XbetConfig } from './services/xbet.config';
     }),
   ],
   controllers: [],
-  providers: [ConfigService, TelegramConfig, AppConfig, DBConfig, XbetConfig],
-  exports: [ConfigService, TelegramConfig, AppConfig, DBConfig, XbetConfig],
+  providers: [
+    ConfigService,
+    TelegramConfig,
+    AppConfig,
+    DBConfig,
+    XbetConfig,
+    MelbetConfig,
+  ],
+  exports: [
+    ConfigService,
+    TelegramConfig,
+    AppConfig,
+    DBConfig,
+    XbetConfig,
+    MelbetConfig,
+  ],
 })
 export class ConfigModule {}

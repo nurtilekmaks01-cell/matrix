@@ -1,29 +1,22 @@
 import { FaqService } from 'src/helpers/faq/faq.service';
+import { BOOKMAKER_TEXT, EBookmakers } from 'src/shared/types/telegram';
 
 interface IReplenishUserArgs {
   bet_id: string;
   price: string;
+  bookmaker: EBookmakers;
   faqService: FaqService;
 }
 export const replenishUserText = (args: IReplenishUserArgs) => {
-  const { bet_id, price, faqService } = args;
+  const { bet_id, price, faqService, bookmaker } = args;
   const faq = faqService.faq;
 
   const text = `
 ✅Ваша заявка принята на проверку!
-🆔ID 1XBET: ${bet_id}
+🆔 ${BOOKMAKER_TEXT[bookmaker]}: ${bet_id}
 💵Сумма: ${price}
 
-💰Комиссия: 0%
-
-⚠️ Пополнение занимает от 5 секунды до 15 минут
-
-Пожалуйста подождите!
-
-✅Вы получите уведомление о зачислении средств!
-
-Если возникли проблемы 👇
-👨‍💻Оператор: <a href="${faq.link}">${faq.username}</a>
+<a href="${faq.link}">${faq.username}</a>
 `;
 
   return text;

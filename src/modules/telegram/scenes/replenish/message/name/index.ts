@@ -5,9 +5,15 @@ import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { CreateKeyupDto } from 'src/helpers/keyup/dto/create-keyup.dto';
 import { EKeyupTypeAction } from 'src/helpers/keyup/shared/type';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
+import { BOOKMAKER_TEXT, EBookmakers } from 'src/shared/types/telegram';
+import { assets } from 'src/assets';
 
-const generateText = () => {
-  const text = `📋 <b>Идентификатор счета 1xbet:</b>\n\nПожалуйста, введите ваш уникальный ID аккаунта <b>1xbet</b>. Его можно найти в личном кабинете.`;
+const generateText = (bookmaker: EBookmakers) => {
+  const textBookmaker = BOOKMAKER_TEXT[bookmaker || EBookmakers.XBET];
+  const text = `
+📋 <b>Идентификатор счета ${textBookmaker}:</b>
+Пожалуйста, введите ваш уникальный ID аккаунта <b>${textBookmaker}</b>. 
+Его можно найти в личном кабинете.`;
   return text;
 };
 
@@ -63,14 +69,21 @@ export const replenishMessageName = async (args: INameArgs) => {
 
   session.name = text;
 
-  const replyText = generateText();
+  const replyText = generateText(session.bet.type);
 
   await createKeyupName({ keyupService, name: text, telegram_id });
 
   const keyboard = await generateKeyboard({ keyupService, telegram_id });
 
+  const sources = {
+    [EBookmakers.MELBET]: assets.melbet.id,
+    [EBookmakers.XBET]: assets.xbet.id,
+  };
+
+  const source = sources[session.bet.type || EBookmakers.XBET];
+
   await ctx.replyWithPhoto(
-    { source: session.bet.assets.id },
+    { source },
     {
       caption: replyText,
       reply_markup: { keyboard, resize_keyboard: true },

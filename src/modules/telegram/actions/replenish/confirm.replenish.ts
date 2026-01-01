@@ -20,6 +20,7 @@ import { UserService } from 'src/modules/user/user.service';
 import { formatDistance, formatDistanceToNow, subDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { EBookmakers } from 'src/shared/types/telegram';
 
 interface IReplenishRequestArgs {
   ctx: SceneContext;
@@ -108,6 +109,22 @@ export const confirmReplenishRequestAction = async (
     // reply_markup: { inline_keyboard: [] },
     parse_mode: 'HTML',
   });
+
+  if (status === ERequest.API) {
+    if (replenish.bookmaker === EBookmakers.MELBET) {
+      const response = await axiosService.createMelbetDeposit(
+        String(replenish.bet_id),
+        Number(replenish.price),
+      );
+
+      if (!response?.Success) {
+        await ctx.reply(
+          `Ошибка при пополнении: ${response?.Message}. Пожалуйста, свяжитесь с поддержкой.`,
+        );
+        return;
+      }
+    }
+  }
 
   if (status === ERequest.BANED) {
     await userService.updateBaned({

@@ -71,8 +71,8 @@ export class TelegramService extends Telegraf<SceneContext> {
 
   @Action(Object.values(START_ACTIONS))
   async onReplenishAction(@Ctx() ctx: SceneContext) {
-    await replenishAction({ ctx });
     await clearInlineKeyboard({ ctx });
+    await replenishAction({ ctx });
   }
 
   @Action(Object.values(REPLENISH_REQUEST_STATUS_CALLBACK))

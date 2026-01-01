@@ -1,5 +1,6 @@
 import { User } from 'src/modules/user/entities/user.entity';
 import { ERequest } from 'src/shared/types/request';
+import { EBookmakers } from 'src/shared/types/telegram';
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +29,9 @@ export class Replenish {
 
   @Column({ enum: ERequest })
   status: ERequest;
+
+  @Column({ enum: EBookmakers, nullable: true, default: EBookmakers.XBET })
+  bookmaker: EBookmakers;
 
   @CreateDateColumn()
   createAt: Date;

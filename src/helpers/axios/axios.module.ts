@@ -4,11 +4,12 @@ import { HttpModule } from '@nestjs/axios';
 import { AxiosFileService } from './services/file.service';
 import { XBetService } from './services/xbet.service';
 import { ConfigModule } from '../config/config.module';
+import { MelbetService } from './services/melbet.service';
 
 @Module({
   imports: [HttpModule, ConfigModule],
   controllers: [],
-  providers: [AxiosService, AxiosFileService, XBetService],
+  providers: [AxiosService, AxiosFileService, XBetService, MelbetService],
   exports: [AxiosService, AxiosFileService, XBetService],
 })
 export class AxiosModule {}

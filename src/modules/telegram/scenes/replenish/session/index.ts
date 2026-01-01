@@ -5,6 +5,7 @@ export interface IReplenishSession extends ITelegramDefaultSession {
   bet_id?: string;
   price?: string;
   photo?: string;
+  bookmaker_message_id?: string;
 }
 
 export const clearReplenishSession = (session: IReplenishSession) => {

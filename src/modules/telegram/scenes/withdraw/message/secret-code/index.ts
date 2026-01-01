@@ -9,6 +9,7 @@ import { FaqService } from 'src/helpers/faq/faq.service';
 import { KeyboardButton } from 'telegraf/typings/core/types/typegram';
 import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { EBookmakers } from 'src/shared/types/telegram';
 
 interface IUserTextArgs {
   session: IWithdrawSession;
@@ -59,18 +60,23 @@ interface IWithdrawSecretCode {
 export const withdrawMessageSecretCode = async (args: IWithdrawSecretCode) => {
   const { ctx, session, text, faqService, axiosService } = args;
 
-  // const payout = await axiosService.payout(String(session.bet_id), text);
+  if (session.bet.type === EBookmakers.MELBET) {
+    const payout = await axiosService.createMelbetPayout(
+      String(session.bet_id),
+      text,
+    );
 
-  // if (!payout?.Success) {
-  //   await ctx.reply(
-  //     payout.Message ||
-  //       'Ошибка при выводе средств. Пожалуйста, попробуйте снова.',
-  //   );
-  //   return;
-  // }
+    if (!payout?.Success) {
+      await ctx.reply(
+        payout.Message ||
+          'Ошибка при выводе средств. Пожалуйста, попробуйте снова.',
+      );
+      return;
+    }
+    session.price = String(payout.Summa);
+  }
 
   session.secret_code = text;
-  // session.price = String(payout.Summa);
   // session.price = '-10000';
 
   const replyText = generateUserText({ session, faqService });
