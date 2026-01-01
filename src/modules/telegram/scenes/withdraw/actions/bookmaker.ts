@@ -1,16 +1,16 @@
 import { ITelegramDefaultSession } from 'src/shared/types/session';
 import { EBookmakers } from 'src/shared/types/telegram';
 import { SceneContext } from 'telegraf/typings/scenes';
-import { replenishSceneWithoutBookmaker } from './scene-enter.action';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
-import { IReplenishSession } from '../session';
+import { IWithdrawSession } from '../session';
+import { generateQrcodeText } from './scene-enter';
+import { TELEGRAM_ACTION_KEYBOARDS } from 'src/modules/telegram/actions/keyboard';
 
-interface IReplenishAction {
+interface IWithdrawAction {
   ctx: SceneContext;
-  keyupService: KeyupService;
 }
-export const replenishBookmakerAction = async (args: IReplenishAction) => {
-  const { ctx, keyupService } = args;
+export const withdrawBookmakerAction = async (args: IWithdrawAction) => {
+  const { ctx } = args;
 
   const callbackQuery = ctx.callbackQuery;
 
@@ -19,7 +19,7 @@ export const replenishBookmakerAction = async (args: IReplenishAction) => {
 
   const telegram_id = String(from.id);
 
-  const session = ctx.session as IReplenishSession;
+  const session = ctx.session as IWithdrawSession;
 
   if (!callbackQuery) return;
   if (!('data' in callbackQuery)) return;
@@ -27,7 +27,13 @@ export const replenishBookmakerAction = async (args: IReplenishAction) => {
 
   session.bet.type = callback_data;
 
-  await replenishSceneWithoutBookmaker({ ctx, keyupService, telegram_id });
+  const qrcodeText = generateQrcodeText();
+  await ctx.replyWithHTML(qrcodeText, {
+    reply_markup: {
+      keyboard: [[{ text: TELEGRAM_ACTION_KEYBOARDS.CANCELED }]],
+      resize_keyboard: true,
+    },
+  });
 
   if (session.bookmaker_message_id) {
     await ctx.deleteMessage(session.bookmaker_message_id);

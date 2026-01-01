@@ -10,6 +10,7 @@ export interface IWithdrawSession extends ITelegramDefaultSession {
   is_qrcode?: boolean;
   qrcode_file_id?: string;
   price?: string;
+  bookmaker_message_id?: number;
 }
 
 export const clearWithdrawSession = (session: IWithdrawSession) => {

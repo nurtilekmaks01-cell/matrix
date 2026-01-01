@@ -88,7 +88,7 @@ export const replenishSceneEnter = async (args: IReplenishSceneEnterArgs) => {
       reply_markup: { inline_keyboard },
     });
 
-    session.bookmaker_message_id = String(message.message_id);
+    session.bookmaker_message_id = message.message_id;
   }
 
   clearReplenishSession(session);

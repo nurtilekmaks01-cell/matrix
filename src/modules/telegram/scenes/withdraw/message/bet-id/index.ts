@@ -77,11 +77,13 @@ export const withdrawMessageBetId = async (args: IWithdrawBetIdArgs) => {
     {
       type: 'photo',
       media: { source: firstSource },
-      caption: replyText,
-      parse_mode: 'HTML',
     },
     { type: 'photo', media: { source: secondSource } },
   ]);
+
+  await ctx.replyWithHTML(replyText, {
+    reply_markup: { keyboard: [], remove_keyboard: true },
+  });
 
   session.bet_id = text;
 };

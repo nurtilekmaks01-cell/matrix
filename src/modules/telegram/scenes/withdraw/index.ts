@@ -25,6 +25,8 @@ import { FaqService } from 'src/helpers/faq/faq.service';
 import { TELEGRAM_ACTION_KEYBOARDS } from '../../actions/keyboard';
 import { KeyupService } from 'src/helpers/keyup/keyup.service';
 import { AxiosService } from 'src/helpers/axios/axios.service';
+import { EBookmakers } from 'src/shared/types/telegram';
+import { withdrawBookmakerAction } from './actions/bookmaker';
 
 @Injectable()
 @Scene(TelegramScenes.WITHDRAW)
@@ -65,6 +67,11 @@ export class WithdrawScene {
   async onBankAction(@Ctx() ctx: SceneContext) {
     await withdrawBankAction({ ctx, keyupService: this.keyupService });
     await clearInlineKeyboard({ ctx });
+  }
+
+  @Action(Object.values(EBookmakers))
+  async onBookmaker(@Ctx() ctx: SceneContext) {
+    withdrawBookmakerAction({ ctx });
   }
 
   @On('text')
