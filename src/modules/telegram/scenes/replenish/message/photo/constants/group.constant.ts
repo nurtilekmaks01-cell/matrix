@@ -3,6 +3,7 @@ import { ERequest } from 'src/shared/types/request';
 import { User } from 'src/modules/user/entities/user.entity';
 import { REPLENISH_REQUEST_STATUS_TEXT } from '../../../actions/status.action';
 import { formatRussianPrice } from 'src/shared/utils/helpers/price.helper';
+import { BOOKMAKER_TEXT } from 'src/shared/types/telegram';
 
 interface IInitialTextArgs {
   replenish: Replenish;
@@ -11,7 +12,7 @@ export const initialReplenishGroupText = (args: IInitialTextArgs) => {
   const { replenish } = args;
 
   const text = `
-🆔ID 1XBET: <code>${replenish.bet_id}</code>
+🆔ID ${BOOKMAKER_TEXT[replenish.bookmaker || replenish.bookmaker]}: <code>${replenish.bet_id}</code>
 
 💵Сумма: ${formatRussianPrice(Number(replenish.price))}
 
