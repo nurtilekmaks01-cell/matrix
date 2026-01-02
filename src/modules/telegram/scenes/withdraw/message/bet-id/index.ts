@@ -36,25 +36,25 @@ interface IWithdrawBetIdArgs {
 export const withdrawMessageBetId = async (args: IWithdrawBetIdArgs) => {
   const { ctx, session, text, axiosService } = args;
 
-  if (session.bet.type === EBookmakers.MELBET) {
-    const findPlayer = await axiosService.getMelbetUserInfo(text);
+  // if (session.bet.type === EBookmakers.MELBET) {
+  //   const findPlayer = await axiosService.getMelbetUserInfo(text);
 
-    console.log(findPlayer, 'find player');
+  //   console.log(findPlayer, 'find player');
 
-    if (!findPlayer?.UserId) {
-      await ctx.reply(
-        'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
-      );
-      return;
-    }
+  //   if (!findPlayer?.UserId) {
+  //     await ctx.reply(
+  //       'Игрок не найден. Пожалуйста, проверьте ID и попробуйте снова.',
+  //     );
+  //     return;
+  //   }
 
-    if (findPlayer.CurrencyId !== 7) {
-      await ctx.reply(
-        '❌ Неверная валюта. Операция доступна только для игроков с валютой KGS (сом).',
-      );
-      return;
-    }
-  }
+  //   if (findPlayer.CurrencyId !== 7) {
+  //     await ctx.reply(
+  //       '❌ Неверная валюта. Операция доступна только для игроков с валютой KGS (сом).',
+  //     );
+  //     return;
+  //   }
+  // }
 
   const replyText = generateText();
   const keyboard = generateKeyboard();

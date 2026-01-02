@@ -85,16 +85,19 @@ import { EBookmakers } from './shared/types/telegram';
     TelegrafModule.forRootAsync({
       botName: 'capital_x_bot',
       imports: [ConfigModule],
-      inject: [XbetConfig],
-      useFactory: (melbetConfig: XbetConfig) => ({
+      inject: [XbetConfig, TelegramConfig],
+      useFactory: (
+        melbetConfig: XbetConfig,
+        telegramConfig: TelegramConfig,
+      ) => ({
         token: melbetConfig.bot_token,
         middlewares: [
           session({
             defaultSession(ctx) {
               const object: ITelegramDefaultSession = {
                 is_main: false,
-                replenish_chat_id: '',
-                withdraw_chat_id: '',
+                replenish_chat_id: telegramConfig.replenish_chat_id,
+                withdraw_chat_id: telegramConfig.withdraw_chat_id,
                 bet: {
                   type: EBookmakers.XBET,
                   assets: {
