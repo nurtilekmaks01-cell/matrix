@@ -21,6 +21,7 @@ import { formatDistance, formatDistanceToNow, subDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { AxiosService } from 'src/helpers/axios/axios.service';
 import { EBookmakers } from 'src/shared/types/telegram';
+import { AxiosError } from 'axios';
 
 interface IReplenishRequestArgs {
   ctx: SceneContext;
@@ -121,6 +122,40 @@ export const confirmReplenishRequestAction = async (
         await ctx.reply(
           `Ошибка при пополнении: ${response?.Message}. Пожалуйста, свяжитесь с поддержкой.`,
         );
+        return;
+      }
+    } else if (replenish.bookmaker === EBookmakers.WIN) {
+      try {
+        const response = await axiosService.createOneWinDeposit(
+          Number(replenish.bet_id),
+          Number(replenish.price),
+        );
+
+        if (!response?.id) {
+          await ctx.reply(
+            `Ошибка при пополнении: ${response?.amount}. Пожалуйста, свяжитесь с поддержкой.`,
+          );
+          return;
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          const response = error.response;
+          const data = response?.data;
+
+          if ('errorCode' in data) {
+            const messages = {
+              CASH01: '❌ Пользователь не найден. Проверьте ID',
+            };
+
+            const message = messages[data.errorCode];
+
+            await ctx.replyWithHTML(message || data?.errorMessage);
+          }
+          console.log(data, 'response');
+        } else {
+          await ctx.reply('❌ Ошибка: проверьте ID и валюту');
+        }
+
         return;
       }
     }

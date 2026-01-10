@@ -78,8 +78,8 @@ export const replenishSceneEnter = async (args: IReplenishSceneEnterArgs) => {
           callback_data: EBookmakers.XBET,
         },
         {
-          text: BOOKMAKER_TEXT[EBookmakers.MELBET],
-          callback_data: EBookmakers.MELBET,
+          text: BOOKMAKER_TEXT[EBookmakers.WIN],
+          callback_data: EBookmakers.WIN,
         },
       ],
     ];

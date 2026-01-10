@@ -74,6 +74,7 @@ export const withdrawMessageName = async (args: IWithdrawMessageNameArgs) => {
   const sources = {
     [EBookmakers.MELBET]: assets.melbet.id,
     [EBookmakers.XBET]: assets.xbet.id,
+    [EBookmakers.WIN]: assets.win.id,
   };
 
   const source = sources[session.bet.type || EBookmakers.XBET];

@@ -6,6 +6,7 @@ import { AppConfig } from './services/app.config';
 import { DBConfig } from './services/db.config';
 import { XbetConfig } from './services/xbet.config';
 import { MelbetConfig } from './services/melbet.config';
+import { FWinConfig } from './services/win.config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MelbetConfig } from './services/melbet.config';
     DBConfig,
     XbetConfig,
     MelbetConfig,
+    FWinConfig,
   ],
   exports: [
     ConfigService,
@@ -30,6 +32,7 @@ import { MelbetConfig } from './services/melbet.config';
     DBConfig,
     XbetConfig,
     MelbetConfig,
+    FWinConfig,
   ],
 })
 export class ConfigModule {}

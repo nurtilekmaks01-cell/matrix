@@ -12,4 +12,6 @@ export enum EBookmakers {
 export const BOOKMAKER_TEXT = {
   [EBookmakers.MELBET]: 'MELBET',
   [EBookmakers.XBET]: '1XBET',
+  [EBookmakers.WIN]: '1WIN',
+  [EBookmakers.MOSTBET]: 'MOSTBET',
 };

@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { XBetService } from './services/xbet.service';
 import { MelbetService } from './services/melbet.service';
+import { OneWinService } from './services/win.service';
 
 @Injectable()
 export class AxiosService {
-  constructor(private readonly xbetService: XBetService, private readonly melbetService: MelbetService) {}
+  constructor(
+    private readonly xbetService: XBetService,
+    private readonly melbetService: MelbetService,
+    private readonly onewinService: OneWinService,
+  ) {}
 
   async getBalance() {
     return await this.xbetService.getBalance();
@@ -22,7 +27,7 @@ export class AxiosService {
     return await this.xbetService.payoutToPlayer(userId, code);
   }
 
-    async getMelbetBalance() {
+  async getMelbetBalance() {
     return await this.melbetService.getBalance();
   }
 
@@ -36,5 +41,16 @@ export class AxiosService {
 
   async createMelbetPayout(userId: string, code: string, ing?: string) {
     return await this.melbetService.payoutFromPlayer(userId, code, ing);
+  }
+
+  async createOneWinDeposit(userId: number, amount: number) {
+    return await this.onewinService.createDeposit({ userId, amount });
+  }
+
+  async createOneWinWithdrawal(userId: number, code: number) {
+    return await this.onewinService.createWithdrawal({
+      userId: userId,
+      code,
+    });
   }
 }

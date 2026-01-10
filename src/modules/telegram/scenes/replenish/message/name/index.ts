@@ -78,6 +78,7 @@ export const replenishMessageName = async (args: INameArgs) => {
   const sources = {
     [EBookmakers.MELBET]: assets.melbet.id,
     [EBookmakers.XBET]: assets.xbet.id,
+    [EBookmakers.WIN]: assets.win.id,
   };
 
   const source = sources[session.bet.type || EBookmakers.XBET];

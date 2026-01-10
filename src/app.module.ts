@@ -22,6 +22,7 @@ import { AutoReplyModule } from './helpers/auto-reply/auto-reply.module';
 import { MelbetConfig } from './helpers/config/services/melbet.config';
 import { XbetConfig } from './helpers/config/services/xbet.config';
 import { EBookmakers } from './shared/types/telegram';
+import { FWinConfig } from './helpers/config/services/win.config';
 
 @Module({
   imports: [
@@ -121,10 +122,10 @@ import { EBookmakers } from './shared/types/telegram';
       }),
     }),
     TelegrafModule.forRootAsync({
-      botName: 'capital_melbet_bot',
+      botName: 'capital_win_bot',
       imports: [ConfigModule],
-      inject: [MelbetConfig],
-      useFactory: (melbetConfig: MelbetConfig) => ({
+      inject: [FWinConfig],
+      useFactory: (melbetConfig: FWinConfig) => ({
         token: melbetConfig.bot_token,
         middlewares: [
           session({
@@ -134,7 +135,7 @@ import { EBookmakers } from './shared/types/telegram';
                 replenish_chat_id: melbetConfig.replenish_chat_id,
                 withdraw_chat_id: melbetConfig.withdraw_chat_id,
                 bet: {
-                  type: EBookmakers.MELBET,
+                  type: EBookmakers.WIN,
                   assets: {
                     id: assets.xbet.id,
                   },
@@ -155,6 +156,41 @@ import { EBookmakers } from './shared/types/telegram';
         },
       }),
     }),
+    // TelegrafModule.forRootAsync({
+    //   botName: 'capital_melbet_bot',
+    //   imports: [ConfigModule],
+    //   inject: [MelbetConfig],
+    //   useFactory: (melbetConfig: MelbetConfig) => ({
+    //     token: melbetConfig.bot_token,
+    //     middlewares: [
+    //       session({
+    //         defaultSession(ctx) {
+    //           const object: ITelegramDefaultSession = {
+    //             is_main: false,
+    //             replenish_chat_id: melbetConfig.replenish_chat_id,
+    //             withdraw_chat_id: melbetConfig.withdraw_chat_id,
+    //             bet: {
+    //               type: EBookmakers.MELBET,
+    //               assets: {
+    //                 id: assets.xbet.id,
+    //               },
+    //               price: {
+    //                 max: 100000,
+    //                 min: 35,
+    //               },
+    //             },
+    //           };
+    //           return object;
+    //         },
+    //       }),
+    //     ],
+    //     include: [TelegramModule],
+    //     launchOptions: {
+    //       allowedUpdates: [],
+    //       dropPendingUpdates: true,
+    //     },
+    //   }),
+    // }),
     TelegrafModule.forRootAsync({
       botName: 'admin_capital_bot',
       imports: [ConfigModule],

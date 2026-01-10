@@ -9,4 +9,7 @@ export const assets = {
     cash: 'src/assets/images/melbet/cash.jpg',
     street: 'src/assets/images/melbet/street.jpg',
   },
+  win: {
+    id: 'src/assets/images/win/id.jpeg',
+  },
 };
