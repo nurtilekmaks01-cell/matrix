@@ -89,7 +89,28 @@ export const replenishMessageBetId = async (args: IBetIdArgs) => {
 
   session.bet_id = text;
 
-  const replyText = generateText({ price: session.bet.price });
+  const prices = {
+    [EBookmakers.MELBET]: {
+      min: 35,
+      max: 100000,
+    },
+    [EBookmakers.MOSTBET]: {
+      min: 100,
+      max: 100000,
+    },
+    [EBookmakers.WIN]: {
+      min: 100,
+      max: 100000,
+    },
+    [EBookmakers.XBET]: {
+      min: 35,
+      max: 100000,
+    },
+  };
+
+  const price = prices[session.bet.type || EBookmakers.XBET];
+
+  const replyText = generateText({ price });
 
   await createKeyup({ keyupService, telegram_id, value: text });
 

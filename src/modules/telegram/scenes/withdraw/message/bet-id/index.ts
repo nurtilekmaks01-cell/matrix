@@ -62,13 +62,17 @@ export const withdrawMessageBetId = async (args: IWithdrawBetIdArgs) => {
   const firstSources = {
     [EBookmakers.XBET]: assets.xbet.mobcash,
     [EBookmakers.MELBET]: assets.melbet.cash,
+    [EBookmakers.MOSTBET]: assets.melbet.cash,
+    [EBookmakers.WIN]: assets.win.cash,
   };
 
   const firstSource = firstSources[session.bet.type || EBookmakers.XBET];
 
   const secondSources = {
-    [EBookmakers.XBET]: assets.xbet.mobcash,
+    [EBookmakers.XBET]: assets.xbet.street,
     [EBookmakers.MELBET]: assets.melbet.street,
+    [EBookmakers.MOSTBET]: assets.melbet.street,
+    [EBookmakers.WIN]: assets.win.street,
   };
 
   const secondSource = secondSources[session.bet.type || EBookmakers.XBET];
