@@ -33,11 +33,6 @@ export const onUseAction = async (args: IOnUseActionArgs) => {
 
   const { bot_starting } = await fileTelegramService.readTelegramJsonFile();
 
-  if (!bot_starting) {
-    await botStoppingHelper({ ctx });
-    return;
-  }
-
   const user = await ensureUserExists({
     from,
     userService,
